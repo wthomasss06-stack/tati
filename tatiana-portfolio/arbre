@@ -1,0 +1,41 @@
+<!-- ════════════════════════════════════════════════════════
+       ARBORESCENCE DES FICHIERS — où placer vos photos
+       ════════════════════════════════════════════════════════
+
+  tatiana-portfolio/
+  │
+  ├── index.html                  ← ce fichier
+  │
+  └── assets/
+      └── images/
+          │
+          ├── hero/
+          │   └── portrait.jpg        ← Photo principale de Tatiana (hero droit)
+          │                             Taille recommandée : 600×800px minimum
+          │
+          ├── about/
+          │   └── tatiana-about.jpg   ← Photo section "À propos"
+          │                             Taille recommandée : 500×650px
+          │
+          ├── cuisine/
+          │   ├── attieke.jpg         ← Attiéké Poisson Braisé (plat signature)
+          │   ├── sauce-graine.jpg    ← Sauce Graine
+          │   ├── alloco.jpg          ← Alloco Sauté
+          │   └── gateau-chocolat.jpg ← Gâteau au Chocolat
+          │                             Taille recommandée : 800×500px (paysage)
+          │
+          └── tricot/
+              ├── echarpe-lavande.jpg ← Écharpe Lavande
+              ├── bonnet-hiver.jpg    ← Bonnet d'hiver
+              ├── mitaines-dorees.jpg ← Mitaines Dorées
+              └── gilet-bleute.jpg    ← Gilet Bleuté
+                                        Taille recommandée : 400×400px (carré)
+
+  COMMENT REMPLACER LES EMOJIS PAR VOS PHOTOS :
+  ──────────────────────────────────────────────
+  1. Créez le dossier "assets/images/" à côté de index.html
+  2. Placez vos photos dans les sous-dossiers correspondants
+  3. Remplacez chaque balise d'emoji par la balise <img> indiquée
+     dans les commentaires HTML ci-dessous
+
+  ════════════════════════════════════════════════════════ -->
