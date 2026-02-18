@@ -5,1980 +5,46 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Tatiana — Art de Vivre</title>
 
+  <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Jost:wght@300;400;500&family=Pinyon+Script&display=swap" rel="stylesheet">
 
-  <style>
-    /* ═══════════════════════════════════════════════
-       VARIABLES
-    ═══════════════════════════════════════════════ */
-    :root {
-      --violet:       #3D1A5C;
-      --violet-mid:   #5C2D8A;
-      --violet-soft:  #7B4FAD;
-      --violet-pale:  #C9AEED;
-      --violet-blush: #EDE1FA;
-      --violet-glass: rgba(61, 26, 92, 0.08);
-      --gold:         #C9A84C;
-      --gold-pale:    #F0E3C0;
-      --cream:        #FAF7F2;
-      --ink:          #1A0A2E;
-      --muted:        #8A7A9B;
-      --border:       rgba(61, 26, 92, 0.15);
-
-      --font-display: 'Cormorant Garamond', Georgia, serif;
-      --font-script:  'Pinyon Script', cursive;
-      --font-body:    'Jost', sans-serif;
-    }
-
-    /* ═══════════════════════════════════════════════
-       RESET & BASE
-    ═══════════════════════════════════════════════ */
-    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-    html { scroll-behavior: smooth; overflow-x: hidden; }
-
-    body {
-      font-family: var(--font-body);
-      background: var(--cream);
-      color: var(--ink);
-      line-height: 1.7;
-      overflow-x: hidden;
-    }
-
-    ::selection { background: var(--violet-pale); color: var(--ink); }
-
-    /* ═══════════════════════════════════════════════
-       GRAIN TEXTURE OVERLAY
-    ═══════════════════════════════════════════════ */
-    body::before {
-      content: '';
-      position: fixed; inset: 0;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.035'/%3E%3C/svg%3E");
-      pointer-events: none; z-index: 9999; opacity: 0.6;
-    }
-
-    /* ═══════════════════════════════════════════════
-       SCROLLBAR
-    ═══════════════════════════════════════════════ */
-    ::-webkit-scrollbar { width: 3px; }
-    ::-webkit-scrollbar-track { background: var(--cream); }
-    ::-webkit-scrollbar-thumb { background: var(--violet-soft); border-radius: 2px; }
-
-    /* ═══════════════════════════════════════════════
-       NAV
-    ═══════════════════════════════════════════════ */
-    nav {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 22px 6%;
-      transition: all 0.4s ease;
-    }
-
-    nav.scrolled {
-      background: rgba(250, 247, 242, 0.96);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      border-bottom: 1px solid var(--border);
-      padding: 14px 6%;
-    }
-
-    /* Sur mobile hero sombre, nav transparente avec texte blanc */
-    .nav-logo {
-      font-family: var(--font-script);
-      font-size: 2rem; color: var(--violet);
-      text-decoration: none;
-      letter-spacing: 0.02em;
-      transition: color 0.3s ease;
-    }
-
-    /* Logo blanc quand nav non scrollée sur mobile */
-    @media (max-width: 768px) {
-      .nav-logo { color: #fff; text-shadow: 0 1px 8px rgba(0,0,0,0.3); }
-      nav.scrolled .nav-logo { color: var(--violet); text-shadow: none; }
-      .hamburger span { background: #fff; }
-      nav.scrolled .hamburger span { background: var(--violet); }
-      nav.scrolled .hamburger {
-        background: rgba(61,26,92,0.08);
-        border-color: var(--border);
-      }
-      .hamburger {
-        background: rgba(255,255,255,0.15);
-        border-color: rgba(255,255,255,0.3);
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            violet: {
+              DEFAULT: '#3D1A5C',
+              mid:     '#5C2D8A',
+              soft:    '#7B4FAD',
+              pale:    '#C9AEED',
+              blush:   '#EDE1FA',
+            },
+            gold: {
+              DEFAULT: '#C9A84C',
+              pale:    '#F0E3C0',
+            },
+            cream: '#FAF7F2',
+            ink:   '#1A0A2E',
+            muted: '#8A7A9B',
+          },
+          fontFamily: {
+            display: ['Cormorant Garamond', 'Georgia', 'serif'],
+            script:  ['Pinyon Script', 'cursive'],
+            body:    ['Jost', 'sans-serif'],
+          },
+        }
       }
     }
+  </script>
 
-    .nav-links {
-      display: flex; gap: 36px; list-style: none;
-    }
-
-    .nav-links a {
-      font-family: var(--font-body);
-      font-size: 0.72rem; font-weight: 500;
-      letter-spacing: 0.18em; text-transform: uppercase;
-      color: var(--violet); text-decoration: none;
-      position: relative; transition: color 0.2s;
-    }
-
-    .nav-links a::after {
-      content: ''; position: absolute; bottom: -3px; left: 0;
-      width: 0; height: 1px; background: var(--gold);
-      transition: width 0.3s ease;
-    }
-
-    .nav-links a:hover::after { width: 100%; }
-
-    /* ═══════════════════════════════════════════════
-       HERO
-    ═══════════════════════════════════════════════ */
-    .hero {
-      min-height: 100vh;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .hero-left {
-      background: var(--violet);
-      display: flex; flex-direction: column; justify-content: center;
-      padding: 120px 8% 80px 10%;
-      position: relative;
-      overflow: hidden;
-    }
-
-    /* Geometric pattern on hero left */
-    .hero-left::before {
-      content: '';
-      position: absolute; top: -80px; right: -80px;
-      width: 360px; height: 360px;
-      border: 1px solid rgba(201, 168, 237, 0.12);
-      border-radius: 50%;
-    }
-
-    .hero-left::after {
-      content: '';
-      position: absolute; bottom: 60px; left: -60px;
-      width: 240px; height: 240px;
-      border: 1px solid rgba(201, 168, 237, 0.08);
-      border-radius: 50%;
-    }
-
-    .hero-eyebrow {
-      font-family: var(--font-body);
-      font-size: 0.68rem; font-weight: 500;
-      letter-spacing: 0.28em; text-transform: uppercase;
-      color: var(--gold); margin-bottom: 20px;
-      display: flex; align-items: center; gap: 12px;
-    }
-
-    .hero-eyebrow::before {
-      content: '';
-      width: 40px; height: 1px; background: var(--gold);
-    }
-
-    .hero-name {
-      font-family: var(--font-script);
-      font-size: clamp(3.5rem, 7vw, 6rem);
-      color: #fff; line-height: 1;
-      margin-bottom: 10px;
-    }
-
-    .hero-title {
-      font-family: var(--font-display);
-      font-size: clamp(1rem, 2vw, 1.5rem);
-      font-weight: 300; font-style: italic;
-      color: var(--violet-pale); margin-bottom: 40px;
-      letter-spacing: 0.04em;
-    }
-
-    .hero-desc {
-      font-size: 0.88rem; font-weight: 300;
-      color: rgba(255,255,255,0.65);
-      max-width: 380px; line-height: 1.9;
-      margin-bottom: 50px;
-    }
-
-    .hero-pillars {
-      display: flex; gap: 20px; flex-wrap: wrap;
-    }
-
-    .pillar-chip {
-      display: flex; align-items: center; gap: 8px;
-      padding: 8px 16px;
-      background: rgba(255,255,255,0.06);
-      border: 1px solid rgba(201, 168, 237, 0.2);
-      border-radius: 100px;
-      font-size: 0.72rem; font-weight: 400;
-      color: var(--violet-pale); letter-spacing: 0.08em;
-      transition: all 0.25s ease;
-    }
-
-    .pillar-chip:hover {
-      background: rgba(201, 168, 237, 0.12);
-      border-color: rgba(201, 168, 237, 0.4);
-      transform: translateY(-2px);
-    }
-
-    .pillar-chip .icon { width: 16px; height: 16px; flex-shrink: 0; }
-
-    /* Portrait — image ou fallback initiale */
-    .hero-portrait img {
-      width: 100%; height: 100%;
-      object-fit: cover; object-position: center top;
-      border-radius: inherit;
-      position: relative; z-index: 2;
-    }
-    .hero-portrait img.hidden { display: none; }
-
-    /* ═══════════════════════════════════════════════
-       PÉTALES DE FLEURS — CANVAS OVERLAY
-    ═══════════════════════════════════════════════ */
-    #petals-canvas {
-      position: fixed; inset: 0;
-      pointer-events: none; z-index: 10;
-      opacity: 0.75;
-    }
-
-    /* Pétales SVG animés dans le hero */
-    .petal-svg {
-      position: absolute;
-      pointer-events: none;
-      z-index: 4;
-      animation: petalFall linear infinite;
-      will-change: transform, opacity;
-    }
-
-    @keyframes petalFall {
-      0%   { transform: translateY(-60px) translateX(0) rotate(0deg); opacity: 0; }
-      5%   { opacity: 1; }
-      90%  { opacity: 0.7; }
-      100% { transform: translateY(110vh) translateX(80px) rotate(720deg); opacity: 0; }
-    }
-    @keyframes petalDrift {
-      0%   { transform: translateY(-60px) translateX(20px) rotate(0deg) scale(0.8); opacity: 0; }
-      5%   { opacity: 0.9; }
-      50%  { transform: translateY(50vh) translateX(-30px) rotate(360deg) scale(1); }
-      90%  { opacity: 0.5; }
-      100% { transform: translateY(110vh) translateX(-60px) rotate(720deg) scale(0.6); opacity: 0; }
-    }
-
-    /* Particules pétales flottantes (section hero-right) */
-    .hero-right .petal-layer {
-      position: absolute; inset: 0; overflow: hidden; z-index: 1; pointer-events: none;
-    }
-
-    /* Hero right — image + floating cards */
-    .hero-right {
-      background: var(--violet-blush);
-      display: flex; align-items: center; justify-content: center;
-      position: relative; overflow: hidden;
-    }
-
-    .hero-right::before {
-      content: '';
-      position: absolute; inset: 0;
-      background:
-        radial-gradient(ellipse at 30% 70%, rgba(92, 45, 138, 0.15) 0%, transparent 60%),
-        radial-gradient(ellipse at 80% 20%, rgba(201, 168, 76, 0.08) 0%, transparent 50%);
-    }
-
-    .hero-portrait {
-      width: 280px; height: 380px;
-      background: linear-gradient(145deg, var(--violet-mid), var(--violet));
-      border-radius: 40% 60% 60% 40% / 50% 40% 60% 50%;
-      position: relative; z-index: 2;
-      display: flex; align-items: center; justify-content: center;
-      overflow: hidden;
-      animation: morphBlob 8s ease-in-out infinite;
-      box-shadow:
-        0 20px 60px rgba(61, 26, 92, 0.25),
-        inset 0 1px 0 rgba(255,255,255,0.1);
-    }
-
-    @keyframes morphBlob {
-      0%,100% { border-radius: 40% 60% 60% 40% / 50% 40% 60% 50%; }
-      33%      { border-radius: 60% 40% 50% 50% / 40% 60% 40% 60%; }
-      66%      { border-radius: 50% 50% 40% 60% / 60% 40% 55% 45%; }
-    }
-
-    .portrait-initial {
-      font-family: var(--font-script);
-      font-size: 6rem; color: rgba(255,255,255,0.25);
-      user-select: none;
-    }
-
-    /* Floating decoration cards */
-    .float-card {
-      position: absolute; z-index: 3;
-      background: rgba(250, 247, 242, 0.92);
-      backdrop-filter: blur(12px);
-      border: 1px solid rgba(61, 26, 92, 0.1);
-      border-radius: 16px; padding: 14px 18px;
-      display: flex; align-items: center; gap: 12px;
-      box-shadow: 0 8px 32px rgba(61, 26, 92, 0.12);
-      animation: floatCard 5s ease-in-out infinite;
-    }
-
-    .float-card:nth-child(2) { animation-delay: -1.5s; }
-    .float-card:nth-child(3) { animation-delay: -3s; }
-
-    @keyframes floatCard {
-      0%,100% { transform: translateY(0) rotate(0deg); }
-      50%      { transform: translateY(-8px) rotate(0.5deg); }
-    }
-
-    .fc-cooking { top: 15%; left: -30px; }
-    .fc-knitting { bottom: 22%; right: -20px; }
-    .fc-faith { top: 55%; left: -40px; }
-
-    .fc-icon { font-size: 1.6rem; }
-
-    .fc-text { display: flex; flex-direction: column; }
-    .fc-label { font-size: 0.6rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
-    .fc-value { font-family: var(--font-display); font-size: 0.88rem; font-weight: 600; color: var(--violet); }
-
-    /* ═══════════════════════════════════════════════
-       SECTION SHARED
-    ═══════════════════════════════════════════════ */
-    section { padding: 100px 8%; position: relative; }
-
-    .section-eyebrow {
-      font-size: 0.66rem; font-weight: 500; letter-spacing: 0.28em;
-      text-transform: uppercase; color: var(--gold);
-      display: flex; align-items: center; gap: 14px;
-      margin-bottom: 18px;
-    }
-
-    .section-eyebrow::before {
-      content: ''; width: 32px; height: 1px; background: var(--gold);
-    }
-
-    .section-title {
-      font-family: var(--font-display);
-      font-size: clamp(2.4rem, 5vw, 4rem);
-      font-weight: 300; line-height: 1.1;
-      color: var(--violet); margin-bottom: 20px;
-      letter-spacing: -0.02em;
-    }
-
-    .section-title em {
-      font-style: italic; color: var(--violet-soft);
-    }
-
-    .section-divider {
-      width: 60px; height: 1px;
-      background: linear-gradient(90deg, var(--gold), transparent);
-      margin-bottom: 48px;
-    }
-
-    /* ═══════════════════════════════════════════════
-       ABOUT
-    ═══════════════════════════════════════════════ */
-    #about {
-      background: #fff;
-      display: grid;
-      grid-template-columns: 1fr 1.2fr;
-      gap: 80px; align-items: center;
-    }
-
-    .about-visual {
-      position: relative;
-    }
-
-    .about-frame {
-      width: 100%; aspect-ratio: 3/4;
-      background: linear-gradient(145deg, var(--violet-blush), var(--violet-pale));
-      border-radius: 2px 60px 2px 60px;
-      display: flex; align-items: center; justify-content: center;
-      position: relative; overflow: hidden;
-    }
-
-    .about-frame::before {
-      content: '✦';
-      font-size: 8rem; color: rgba(61,26,92,0.06);
-      position: absolute; top: 50%; left: 50%;
-      transform: translate(-50%, -50%);
-      animation: spin 20s linear infinite;
-    }
-
-    @keyframes spin { from { transform: translate(-50%,-50%) rotate(0deg); } to { transform: translate(-50%,-50%) rotate(360deg); } }
-
-    .about-frame-initial {
-      font-family: var(--font-script);
-      font-size: 5rem; color: var(--violet-mid);
-      opacity: 0.4; position: relative; z-index: 1;
-    }
-
-    .about-ornament {
-      position: absolute; bottom: -20px; right: -20px;
-      width: 120px; height: 120px;
-      border: 1px solid var(--border);
-      border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      background: var(--cream);
-      font-size: 0.6rem; font-weight: 500; letter-spacing: 0.2em;
-      text-transform: uppercase; color: var(--muted);
-      text-align: center; padding: 16px;
-    }
-
-    .about-text p {
-      font-size: 0.92rem; color: #4A3A5A;
-      line-height: 1.95; margin-bottom: 22px;
-      font-weight: 300;
-    }
-
-    .about-text p strong { color: var(--violet); font-weight: 500; }
-
-    .about-quote {
-      margin: 36px 0;
-      padding: 24px 28px;
-      background: var(--violet-glass);
-      border-left: 2px solid var(--gold);
-      border-radius: 0 8px 8px 0;
-    }
-
-    .about-quote blockquote {
-      font-family: var(--font-display);
-      font-size: 1.2rem; font-style: italic;
-      color: var(--violet); line-height: 1.6;
-    }
-
-    /* ═══════════════════════════════════════════════
-       PASSIONS / CARDS
-    ═══════════════════════════════════════════════ */
-    #passions {
-      background: var(--violet);
-      padding: 100px 8%;
-    }
-
-    #passions .section-eyebrow { color: var(--gold); }
-    #passions .section-eyebrow::before { background: var(--gold); }
-    #passions .section-title { color: #fff; }
-    #passions .section-title em { color: var(--violet-pale); }
-    #passions .section-divider { background: linear-gradient(90deg, var(--gold), transparent); }
-
-    .passions-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 24px; margin-top: 0;
-    }
-
-    .passion-card {
-      background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(201,174,237,0.15);
-      border-radius: 24px; padding: 44px 32px;
-      position: relative; overflow: hidden;
-      transition: all 0.35s ease;
-      cursor: default;
-    }
-
-    .passion-card::before {
-      content: '';
-      position: absolute; top: 0; left: 0; right: 0; bottom: 0;
-      background: linear-gradient(135deg, rgba(201,168,237,0.08) 0%, transparent 60%);
-      opacity: 0; transition: opacity 0.35s ease;
-      border-radius: inherit;
-    }
-
-    .passion-card:hover { transform: translateY(-8px); border-color: rgba(201,168,76,0.3); }
-    .passion-card:hover::before { opacity: 1; }
-
-    .passion-icon-wrap {
-      width: 72px; height: 72px;
-      background: rgba(201, 168, 76, 0.1);
-      border: 1px solid rgba(201, 168, 76, 0.2);
-      border-radius: 20px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 2.2rem; margin-bottom: 28px;
-      transition: all 0.3s ease;
-    }
-
-    .passion-card:hover .passion-icon-wrap {
-      background: rgba(201, 168, 76, 0.2);
-      transform: scale(1.05) rotate(3deg);
-    }
-
-    .passion-num {
-      font-family: var(--font-display);
-      font-size: 0.7rem; font-weight: 300; letter-spacing: 0.2em;
-      color: rgba(201,168,76,0.5); margin-bottom: 10px;
-    }
-
-    .passion-name {
-      font-family: var(--font-display);
-      font-size: 1.7rem; font-weight: 400;
-      color: #fff; margin-bottom: 14px; line-height: 1.15;
-    }
-
-    .passion-desc {
-      font-size: 0.84rem; font-weight: 300;
-      color: rgba(255,255,255,0.55); line-height: 1.85;
-    }
-
-    .passion-tags {
-      display: flex; flex-wrap: wrap; gap: 7px; margin-top: 24px;
-    }
-
-    .ptag {
-      font-size: 0.64rem; font-weight: 500; letter-spacing: 0.1em;
-      text-transform: uppercase; padding: 4px 12px;
-      border: 1px solid rgba(201, 168, 237, 0.2);
-      border-radius: 100px; color: var(--violet-pale);
-    }
-
-    /* ═══════════════════════════════════════════════
-       RECETTES VEDETTES
-    ═══════════════════════════════════════════════ */
-    #cuisine {
-      background: var(--cream);
-      padding: 100px 8%;
-    }
-
-    .recipes-layout {
-      display: grid;
-      grid-template-columns: 1.4fr 1fr 1fr;
-      grid-template-rows: auto auto;
-      gap: 20px;
-    }
-
-    .recipe-card {
-      background: #fff;
-      border: 1px solid var(--border);
-      border-radius: 20px; overflow: hidden;
-      transition: all 0.3s ease;
-      position: relative;
-    }
-
-    .recipe-card:hover {
-      transform: translateY(-6px);
-      box-shadow: 0 20px 50px rgba(61, 26, 92, 0.1);
-      border-color: var(--violet-pale);
-    }
-
-    .recipe-card.featured {
-      grid-row: 1 / 3;
-      display: flex; flex-direction: column;
-    }
-
-    .recipe-img {
-      height: 200px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 3.5rem;
-      position: relative; overflow: hidden;
-    }
-
-    .recipe-card.featured .recipe-img { height: 280px; font-size: 5rem; }
-
-    .r-bg-1 { background: linear-gradient(135deg, #2D1B45, #5C2D8A); }
-    .r-bg-2 { background: linear-gradient(135deg, #1A3A2A, #2D6A4F); }
-    .r-bg-3 { background: linear-gradient(135deg, #4A1A1A, #8B3A2A); }
-    .r-bg-4 { background: linear-gradient(135deg, #1A2A4A, #2D4A8A); }
-
-    .recipe-img::after {
-      content: ''; position: absolute; inset: 0;
-      background: linear-gradient(to top, rgba(0,0,0,0.3) 0%, transparent 50%);
-    }
-
-    .recipe-badge {
-      position: absolute; top: 12px; left: 12px; z-index: 2;
-      background: var(--gold); color: #1A0A2E;
-      font-size: 0.58rem; font-weight: 600; letter-spacing: 0.1em;
-      text-transform: uppercase; padding: 4px 10px; border-radius: 100px;
-    }
-
-    .recipe-body { padding: 22px 24px; flex: 1; display: flex; flex-direction: column; }
-
-    .recipe-cat {
-      font-size: 0.62rem; font-weight: 500; letter-spacing: 0.18em;
-      text-transform: uppercase; color: var(--muted); margin-bottom: 8px;
-    }
-
-    .recipe-name {
-      font-family: var(--font-display);
-      font-size: 1.3rem; font-weight: 400;
-      color: var(--violet); line-height: 1.2; margin-bottom: 10px;
-    }
-
-    .recipe-card.featured .recipe-name { font-size: 1.8rem; }
-
-    .recipe-desc {
-      font-size: 0.8rem; color: var(--muted); line-height: 1.7;
-      font-weight: 300; flex: 1;
-    }
-
-    .recipe-meta {
-      display: flex; gap: 16px; margin-top: 18px;
-      padding-top: 16px; border-top: 1px solid var(--border);
-    }
-
-    .rmeta {
-      display: flex; align-items: center; gap: 5px;
-      font-size: 0.68rem; color: var(--muted);
-    }
-
-    .rmeta .rm-icon { font-size: 0.85rem; }
-
-    /* ═══════════════════════════════════════════════
-       TRICOT / CRÉATIONS
-    ═══════════════════════════════════════════════ */
-    #tricot {
-      background: var(--violet-blush);
-      padding: 100px 8%;
-    }
-
-    .tricot-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 16px; margin-top: 0;
-    }
-
-    .tricot-item {
-      background: #fff;
-      border-radius: 16px; overflow: hidden;
-      border: 1px solid var(--border);
-      transition: all 0.3s ease;
-    }
-
-    .tricot-item:hover {
-      transform: translateY(-5px) rotate(0.5deg);
-      box-shadow: 0 16px 40px rgba(61, 26, 92, 0.12);
-    }
-
-    .tricot-thumb {
-      height: 160px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 2.8rem;
-    }
-
-    .t-bg-1 { background: linear-gradient(135deg, #E8D5F5, #C9AEED); }
-    .t-bg-2 { background: linear-gradient(135deg, #D4E8D5, #A8C8A8); }
-    .t-bg-3 { background: linear-gradient(135deg, #F5E8D0, #E0C89A); }
-    .t-bg-4 { background: linear-gradient(135deg, #D5E0F5, #A8B8E0); }
-
-    .tricot-info { padding: 16px 18px; }
-
-    .tricot-name {
-      font-family: var(--font-display);
-      font-size: 1rem; font-weight: 500; color: var(--violet);
-      margin-bottom: 4px;
-    }
-
-    .tricot-detail {
-      font-size: 0.72rem; color: var(--muted); font-weight: 300;
-    }
-
-    .tricot-difficulty {
-      display: flex; gap: 3px; margin-top: 8px;
-    }
-
-    .dot-filled { color: var(--gold); font-size: 0.6rem; }
-    .dot-empty  { color: var(--violet-pale); font-size: 0.6rem; }
-
-    /* ═══════════════════════════════════════════════
-       FOI / SPIRITUALITÉ
-    ═══════════════════════════════════════════════ */
-    #foi {
-      background: linear-gradient(145deg, var(--violet) 0%, #1A0A2E 100%);
-      padding: 120px 8%;
-      text-align: center;
-      position: relative; overflow: hidden;
-    }
-
-    #foi::before {
-      content: '✦';
-      font-size: 30rem; color: rgba(255,255,255,0.015);
-      position: absolute; top: 50%; left: 50%;
-      transform: translate(-50%,-50%);
-      pointer-events: none;
-      animation: spin 60s linear infinite;
-    }
-
-    #foi .section-eyebrow { justify-content: center; color: var(--gold-pale); }
-    #foi .section-eyebrow::before { display: none; }
-    #foi .section-title { color: #fff; }
-    #foi .section-title em { color: var(--violet-pale); }
-    #foi .section-divider { margin: 0 auto 48px; background: linear-gradient(90deg, transparent, var(--gold), transparent); }
-
-    .foi-verse {
-      max-width: 700px; margin: 0 auto 60px;
-      font-family: var(--font-display);
-      font-size: clamp(1.3rem, 3vw, 2rem);
-      font-style: italic; font-weight: 300;
-      color: rgba(255,255,255,0.85); line-height: 1.7;
-      position: relative; z-index: 1;
-    }
-
-    .foi-verse::before, .foi-verse::after {
-      content: '"';
-      font-size: 4rem; color: var(--gold); opacity: 0.3;
-      font-style: normal; line-height: 0; vertical-align: -0.5em;
-    }
-
-    .foi-ref {
-      font-family: var(--font-body);
-      font-size: 0.72rem; letter-spacing: 0.2em;
-      text-transform: uppercase; color: var(--gold);
-      margin-top: 18px; display: block;
-    }
-
-    .foi-values {
-      display: flex; justify-content: center; gap: 50px;
-      flex-wrap: wrap; margin-top: 60px;
-      position: relative; z-index: 1;
-    }
-
-    .foi-val {
-      display: flex; flex-direction: column; align-items: center; gap: 10px;
-    }
-
-    .foi-val-icon {
-      width: 56px; height: 56px;
-      border: 1px solid rgba(201,168,76,0.3);
-      border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1.4rem;
-      background: rgba(201,168,76,0.06);
-      transition: all 0.3s ease;
-    }
-
-    .foi-val:hover .foi-val-icon {
-      background: rgba(201,168,76,0.15);
-      transform: scale(1.1);
-    }
-
-    .foi-val-name {
-      font-family: var(--font-display);
-      font-size: 0.95rem; font-style: italic; color: var(--violet-pale);
-    }
-
-    /* ═══════════════════════════════════════════════
-       CONTACT
-    ═══════════════════════════════════════════════ */
-    #contact {
-      background: var(--cream);
-      padding: 100px 8%;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 80px; align-items: start;
-    }
-
-    .contact-left .section-title { margin-bottom: 14px; }
-
-    .contact-intro {
-      font-size: 0.9rem; font-weight: 300; color: var(--muted);
-      line-height: 1.9; max-width: 400px;
-      margin-bottom: 40px;
-    }
-
-    .contact-items { display: flex; flex-direction: column; gap: 16px; }
-
-    .contact-item {
-      display: flex; align-items: center; gap: 18px;
-      padding: 16px 20px;
-      background: #fff;
-      border: 1px solid var(--border); border-radius: 12px;
-      transition: all 0.25s ease;
-    }
-
-    .contact-item:hover {
-      border-color: var(--violet-pale);
-      transform: translateX(4px);
-      box-shadow: 0 4px 20px rgba(61,26,92,0.07);
-    }
-
-    .ci-icon {
-      width: 42px; height: 42px;
-      background: var(--violet-glass);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1.1rem; flex-shrink: 0;
-    }
-
-    .ci-info { display: flex; flex-direction: column; }
-    .ci-label { font-size: 0.6rem; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
-    .ci-val { font-size: 0.86rem; color: var(--violet); font-weight: 400; }
-
-    /* Contact form */
-    .contact-form { display: flex; flex-direction: column; gap: 16px; }
-
-    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-
-    .form-group { display: flex; flex-direction: column; gap: 6px; }
-
-    .form-group label {
-      font-size: 0.66rem; font-weight: 500; letter-spacing: 0.12em;
-      text-transform: uppercase; color: var(--muted);
-    }
-
-    .form-group input,
-    .form-group textarea,
-    .form-group select {
-      padding: 12px 16px;
-      background: #fff; color: var(--ink);
-      border: 1px solid var(--border); border-radius: 8px;
-      font-family: var(--font-body); font-size: 0.86rem;
-      outline: none; transition: border-color 0.2s;
-      resize: none;
-    }
-
-    .form-group input:focus,
-    .form-group textarea:focus,
-    .form-group select:focus {
-      border-color: var(--violet-soft);
-      box-shadow: 0 0 0 3px rgba(123, 79, 173, 0.08);
-    }
-
-    .form-group textarea { min-height: 120px; }
-
-    .btn-send {
-      display: inline-flex; align-items: center; justify-content: center; gap: 10px;
-      padding: 15px 36px;
-      background: var(--violet); color: #fff;
-      border: none; border-radius: 100px;
-      font-family: var(--font-body); font-size: 0.8rem;
-      font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase;
-      cursor: pointer; transition: all 0.3s ease;
-      align-self: flex-start;
-    }
-
-    .btn-send:hover {
-      background: var(--violet-mid);
-      transform: translateY(-2px);
-      box-shadow: 0 12px 32px rgba(61,26,92,0.3);
-    }
-
-    /* ═══════════════════════════════════════════════
-       FOOTER
-    ═══════════════════════════════════════════════ */
-    footer {
-      background: var(--ink);
-      padding: 50px 8%;
-      display: flex; align-items: center; justify-content: space-between;
-      flex-wrap: wrap; gap: 20px;
-    }
-
-    .footer-logo {
-      font-family: var(--font-script);
-      font-size: 2.2rem; color: #fff;
-    }
-
-    .footer-copy {
-      font-size: 0.72rem; color: rgba(255,255,255,0.35);
-      letter-spacing: 0.08em;
-    }
-
-    .footer-icons {
-      display: flex; gap: 14px;
-    }
-
-    .footer-icon {
-      width: 38px; height: 38px;
-      border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1rem; color: rgba(255,255,255,0.5);
-      text-decoration: none;
-      transition: all 0.25s ease;
-    }
-
-    .footer-icon:hover {
-      border-color: var(--gold);
-      color: var(--gold);
-      transform: translateY(-2px);
-    }
-
-    /* ═══════════════════════════════════════════════
-       ANIMATIONS
-    ═══════════════════════════════════════════════ */
-    .reveal {
-      opacity: 0;
-      transform: translateY(28px);
-      transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    }
-
-    .reveal.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    .reveal-delay-1 { transition-delay: 0.1s; }
-    .reveal-delay-2 { transition-delay: 0.2s; }
-    .reveal-delay-3 { transition-delay: 0.3s; }
-    .reveal-delay-4 { transition-delay: 0.4s; }
-
-    /* ═══════════════════════════════════════════════
-       HAMBURGER MENU MOBILE
-    ═══════════════════════════════════════════════ */
-    .hamburger {
-      display: none;
-      flex-direction: column; justify-content: center; align-items: center;
-      width: 44px; height: 44px;
-      background: rgba(61,26,92,0.08);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      cursor: pointer; gap: 5px;
-      transition: all 0.25s ease;
-      z-index: 1100;
-      flex-shrink: 0;
-    }
-    .hamburger span {
-      display: block; width: 20px; height: 1.5px;
-      background: var(--violet);
-      transition: all 0.35s cubic-bezier(0.23, 1, 0.32, 1);
-      border-radius: 2px;
-    }
-    .hamburger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
-    .hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
-    .hamburger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
-
-    /* Mobile nav drawer */
-    .mobile-nav-overlay {
-      display: none;
-      position: fixed; inset: 0; z-index: 1050;
-      background: rgba(26, 10, 46, 0.55);
-      backdrop-filter: blur(4px);
-      opacity: 0; transition: opacity 0.3s ease;
-    }
-    .mobile-nav-overlay.open { opacity: 1; }
-
-    .mobile-nav-drawer {
-      position: fixed; top: 0; right: -100%; z-index: 1060;
-      width: min(85vw, 320px); height: 100vh;
-      background: var(--cream);
-      padding: 80px 32px 40px;
-      display: flex; flex-direction: column;
-      transition: right 0.4s cubic-bezier(0.23, 1, 0.32, 1);
-      box-shadow: -20px 0 60px rgba(61,26,92,0.15);
-      overflow-y: auto;
-    }
-    .mobile-nav-drawer.open { right: 0; }
-
-    .drawer-logo {
-      font-family: var(--font-script);
-      font-size: 2.2rem; color: var(--violet);
-      margin-bottom: 40px;
-    }
-
-    .drawer-links {
-      list-style: none; display: flex; flex-direction: column; gap: 4px;
-      flex: 1;
-    }
-    .drawer-links li a {
-      display: flex; align-items: center; gap: 14px;
-      padding: 14px 16px;
-      font-family: var(--font-body);
-      font-size: 0.9rem; font-weight: 500;
-      letter-spacing: 0.1em; text-transform: uppercase;
-      color: var(--violet); text-decoration: none;
-      border-radius: 10px;
-      transition: all 0.2s ease;
-      border: 1px solid transparent;
-    }
-    .drawer-links li a:hover {
-      background: var(--violet-glass);
-      border-color: var(--border);
-    }
-    .drawer-links li a .dl-dot {
-      width: 6px; height: 6px; border-radius: 50%;
-      background: var(--gold); flex-shrink: 0;
-    }
-
-    .drawer-footer {
-      margin-top: 32px;
-      padding-top: 24px;
-      border-top: 1px solid var(--border);
-      font-size: 0.72rem; color: var(--muted);
-      letter-spacing: 0.06em;
-    }
-
-    /* ═══════════════════════════════════════════════
-       RESPONSIVE — TABLET (≤1024px)
-    ═══════════════════════════════════════════════ */
-    @media (max-width: 1024px) {
-      nav { padding: 18px 6%; }
-      .nav-links { gap: 24px; }
-      .nav-links a { font-size: 0.68rem; }
-
-      .hero { grid-template-columns: 1fr; min-height: auto; }
-      .hero-left { padding: 130px 8% 70px; }
-      .hero-right { display: none; }
-
-      #about { grid-template-columns: 1fr; gap: 48px; padding: 70px 8%; }
-      .about-visual { max-width: 280px; margin: 0 auto; }
-
-      .passions-grid { grid-template-columns: 1fr 1fr; }
-      .recipes-layout { grid-template-columns: 1fr 1fr; }
-      .recipe-card.featured { grid-row: auto; grid-column: 1 / 3; }
-      .tricot-grid { grid-template-columns: repeat(2, 1fr); }
-      #contact { grid-template-columns: 1fr; gap: 50px; }
-    }
-
-    /* ═══════════════════════════════════════════════
-       RESPONSIVE — MOBILE (≤768px)
-    ═══════════════════════════════════════════════ */
-    @media (max-width: 768px) {
-      /* Show hamburger, hide desktop nav */
-      .hamburger { display: flex; }
-      .nav-links { display: none; }
-      .mobile-nav-overlay { display: block; }
-      nav { padding: 16px 5%; }
-
-      /* Sections */
-      section { padding: 64px 5%; }
-
-      /* ── HERO MOBILE ─────────────────────────────
-         Portrait plein écran, texte par-dessus       */
-      .hero {
-        grid-template-columns: 1fr;
-        min-height: 100svh;
-        position: relative;
-      }
-
-      /* Côté droit = fond absolu plein écran */
-      .hero-right {
-        display: block !important;
-        position: absolute; inset: 0; z-index: 0;
-        overflow: hidden;
-      }
-
-      /* Portrait occupe tout l'espace, bien visible */
-      .hero-portrait {
-        width: 100%; height: 100%;
-        border-radius: 0;
-        animation: none;
-        box-shadow: none;
-        position: absolute; inset: 0;
-        opacity: 1;           /* ← pleine opacité */
-      }
-      .hero-portrait::after { display: none; }
-      .hero-portrait img {
-        object-fit: cover;
-        object-position: center top;   /* visage centré en haut */
-        width: 100%; height: 100%;
-        position: absolute; inset: 0;
-      }
-      #portraitFallback { font-size: 10rem; opacity: 0.2; }
-
-      /* Dégradé sombre EN BAS pour lisibilité du texte */
-      .hero-right::after {
-        content: '';
-        position: absolute; inset: 0; z-index: 1;
-        background: linear-gradient(
-          to bottom,
-          rgba(26, 10, 46, 0.25) 0%,
-          rgba(26, 10, 46, 0.15) 30%,
-          rgba(26, 10, 46, 0.70) 65%,
-          rgba(26, 10, 46, 0.92) 100%
-        );
-      }
-
-      .hero-right .petal-layer { z-index: 2; }
-      .float-card { display: none; }
-
-      /* Texte hero collé en BAS de l'écran */
-      .hero-left {
-        padding: 0 6% 52px;
-        display: flex; flex-direction: column;
-        justify-content: flex-end;      /* ← texte en bas */
-        align-items: flex-start;
-        position: relative; z-index: 2;
-        min-height: 100svh;
-      }
-
-      .hero-eyebrow { margin-bottom: 10px; }
-      .hero-name { font-size: clamp(2.4rem, 9vw, 3.6rem); margin-bottom: 6px; }
-      .hero-title { font-size: 1rem; margin-bottom: 14px; }
-      .hero-desc { font-size: 0.84rem; max-width: 100%; margin-bottom: 24px; line-height: 1.7; }
-      .hero-pillars { gap: 8px; flex-wrap: wrap; }
-      .pillar-chip { font-size: 0.66rem; padding: 7px 12px; }
-
-      /* Sections générales */
-      .section-title { font-size: clamp(2rem, 7vw, 3rem); }
-
-      /* About */
-      #about { grid-template-columns: 1fr; gap: 36px; padding: 60px 5%; }
-      .about-visual { max-width: 220px; margin: 0 auto; }
-      .about-frame { aspect-ratio: 1/1; border-radius: 50%; }
-      .about-ornament { width: 90px; height: 90px; font-size: 0.5rem; bottom: -10px; right: -10px; }
-      .about-quote blockquote { font-size: 1rem; }
-
-      /* Passions */
-      #passions { padding: 64px 5%; }
-      .passions-grid { grid-template-columns: 1fr; gap: 16px; }
-      .passion-card { padding: 32px 24px; border-radius: 18px; }
-      .passion-icon-wrap { width: 58px; height: 58px; margin-bottom: 20px; }
-      .passion-name { font-size: 1.4rem; }
-
-      /* Cuisine */
-      #cuisine { padding: 64px 5%; }
-      .recipes-layout { grid-template-columns: 1fr; gap: 16px; }
-      .recipe-card.featured { grid-column: 1; }
-      .recipe-card.featured .recipe-img { height: 220px; }
-      .recipe-img { height: 170px; }
-
-      /* Tricot */
-      #tricot { padding: 64px 5%; }
-      .tricot-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
-      .tricot-thumb { height: 130px; font-size: 2.2rem; }
-
-      /* Foi */
-      #foi { padding: 80px 5%; }
-      .foi-verse { font-size: clamp(1.1rem, 4vw, 1.5rem); margin-bottom: 44px; }
-      .foi-values { gap: 28px; }
-      .foi-val-icon { width: 48px; height: 48px; }
-
-      /* Contact */
-      #contact { grid-template-columns: 1fr; gap: 40px; padding: 64px 5%; }
-      .contact-intro { max-width: 100%; }
-      .form-row { grid-template-columns: 1fr; }
-      .btn-send { width: 100%; justify-content: center; }
-
-      /* Footer */
-      footer { flex-direction: column; align-items: center; text-align: center; padding: 40px 5%; gap: 16px; }
-
-      /* Scroll top */
-      #scroll-top { bottom: 20px; right: 16px; width: 44px; height: 44px; }
-
-      /* ── MODALE MOBILE — bottom sheet ───────────── */
-      .modal-overlay {
-        align-items: flex-end;
-        padding: 0;
-      }
-      .modal-box {
-        grid-template-columns: 1fr;
-        max-width: 100%;
-        width: 100%;
-        border-radius: 24px 24px 0 0;
-        max-height: 92svh;
-        overflow: hidden;
-        transform: translateY(100%);
-        transition: transform 0.4s cubic-bezier(0.23,1,0.32,1);
-      }
-      .modal-overlay.open .modal-box {
-        transform: translateY(0);
-      }
-      /* Barre drag en haut */
-      .modal-box::before {
-        content: '';
-        display: block;
-        width: 40px; height: 4px;
-        background: rgba(61,26,92,0.15);
-        border-radius: 2px;
-        margin: 14px auto -4px;
-        flex-shrink: 0;
-      }
-      .modal-img {
-        border-radius: 0;
-        min-height: 200px;
-        max-height: 220px;
-        flex-shrink: 0;
-      }
-      .modal-body {
-        padding: 18px 20px 40px;
-        max-height: calc(92svh - 220px);
-        overflow-y: auto;
-        -webkit-overflow-scrolling: touch;
-      }
-      .modal-name { font-size: 1.35rem; }
-      .modal-prix-row {
-        flex-direction: column;
-        align-items: stretch;
-        gap: 10px;
-      }
-      .modal-btn-commander {
-        width: 100%;
-        padding: 16px;
-        font-size: 0.82rem;
-      }
-      .modal-close {
-        top: 10px; right: 14px;
-        width: 34px; height: 34px;
-        font-size: 0.9rem;
-      }
-
-      /* ── BOUTON COMMANDER — taille touch-friendly ── */
-      .btn-commander {
-        padding: 10px 16px;
-        font-size: 0.7rem;
-        min-height: 44px;
-        white-space: nowrap;
-      }
-      .overlay-btn {
-        padding: 12px 22px;
-        font-size: 0.74rem;
-        min-height: 44px;
-      }
-
-      /* ── BOUTIQUE GRILLE — 2 colonnes sur mobile ── */
-      #cosmetiques { padding: 64px 5%; }
-      .boutique-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
-      .boutique-banner { grid-template-columns: 1fr; gap: 10px; }
-      .produit-body { padding: 12px 14px 16px; gap: 6px; }
-      .produit-name { font-size: 0.95rem; }
-      .produit-desc { font-size: 0.75rem; line-height: 1.6; }
-      .prix-main { font-size: 1.1rem; }
-      .produit-footer { margin-top: 10px; padding-top: 10px; flex-wrap: wrap; gap: 8px; }
-      .btn-commander { width: 100%; justify-content: center; }
-      .boutique-filters { gap: 6px; }
-      .bfilter { font-size: 0.62rem; padding: 7px 12px; }
-    }
-
-    /* ═══════════════════════════════════════════════
-       RESPONSIVE — SMALL MOBILE (≤430px)
-    ═══════════════════════════════════════════════ */
-    @media (max-width: 430px) {
-      section { padding: 56px 4%; }
-      .hero-left { padding: 0 5% 44px; }
-      .hero-name { font-size: clamp(2rem, 10vw, 2.8rem); }
-      .hero-eyebrow { font-size: 0.6rem; }
-      .hero-desc { font-size: 0.8rem; }
-      .pillar-chip { font-size: 0.62rem; padding: 6px 10px; gap: 5px; }
-
-      .tricot-grid { grid-template-columns: 1fr 1fr; }
-      .tricot-thumb { height: 110px; font-size: 2rem; }
-      .tricot-name { font-size: 0.88rem; }
-      .tricot-detail { font-size: 0.65rem; }
-
-      .passion-card { padding: 26px 18px; }
-      .passion-name { font-size: 1.3rem; }
-      .passion-desc { font-size: 0.8rem; }
-      .ptag { font-size: 0.6rem; }
-
-      .recipe-name { font-size: 1.1rem; }
-      .recipe-card.featured .recipe-name { font-size: 1.4rem; }
-
-      .foi-values { gap: 20px; flex-wrap: wrap; justify-content: center; }
-      .foi-val-name { font-size: 0.8rem; }
-
-      .section-title { font-size: 1.9rem; }
-      .section-eyebrow { font-size: 0.6rem; }
-
-      footer { padding: 32px 4%; }
-      .footer-logo { font-size: 1.8rem; }
-      .footer-copy { font-size: 0.65rem; }
-
-      /* Modale très petit écran */
-      .modal-img { min-height: 160px; max-height: 180px; }
-      .modal-body {
-        padding: 14px 14px 36px;
-        max-height: calc(92svh - 180px);
-      }
-      .modal-details { padding: 10px 12px; }
-      .modal-name { font-size: 1.2rem; }
-      .modal-prix-main { font-size: 1.5rem; }
-
-      /* Boutique 1 colonne sur très petit */
-      .boutique-grid { grid-template-columns: 1fr; gap: 14px; }
-      .produit-img { aspect-ratio: 4/3; }
-    }
-
-    /* ═══════════════════════════════════════════════
-       CURSOR GLOW
-    ═══════════════════════════════════════════════ */
-    .cursor-glow {
-      position: fixed; pointer-events: none; z-index: 9998;
-      width: 360px; height: 360px;
-      background: radial-gradient(circle, rgba(123,79,173,0.07) 0%, transparent 70%);
-      border-radius: 50%;
-      transform: translate(-50%, -50%);
-      transition: transform 0.08s ease;
-      mix-blend-mode: multiply;
-    }
-
-    /* ═══════════════════════════════════════════════
-       HERO ENTRANCE ANIMATION
-    ═══════════════════════════════════════════════ */
-    .hero-left > * {
-      animation: heroSlideIn 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
-    }
-    .hero-left > *:nth-child(1) { animation-delay: 0.1s; }
-    .hero-left > *:nth-child(2) { animation-delay: 0.25s; }
-    .hero-left > *:nth-child(3) { animation-delay: 0.4s; }
-    .hero-left > *:nth-child(4) { animation-delay: 0.55s; }
-    .hero-left > *:nth-child(5) { animation-delay: 0.7s; }
-
-    @keyframes heroSlideIn {
-      from { opacity: 0; transform: translateX(-30px); }
-      to   { opacity: 1; transform: translateX(0); }
-    }
-
-    /* Portrait pulse ring */
-    .hero-portrait::after {
-      content: '';
-      position: absolute; inset: -12px;
-      border-radius: inherit;
-      border: 1px solid rgba(201,168,237,0.2);
-      animation: porPulse 3s ease-in-out infinite;
-      pointer-events: none;
-      z-index: 0;
-    }
-    @keyframes porPulse {
-      0%,100% { transform: scale(1); opacity: 0.6; }
-      50%      { transform: scale(1.04); opacity: 1; }
-    }
-
-    /* Section hover shimmer */
-    .passion-card, .recipe-card, .tricot-item {
-      position: relative;
-    }
-    .passion-card::after, .recipe-card::after {
-      content: '';
-      position: absolute; top: 0; left: -100%;
-      width: 60%; height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.04), transparent);
-      transform: skewX(-20deg);
-      transition: left 0.6s ease;
-      pointer-events: none;
-    }
-    .passion-card:hover::after, .recipe-card:hover::after {
-      left: 150%;
-    }
-
-    /* ═══════════════════════════════════════════════
-       BOUTIQUE COSMÉTIQUE
-    ═══════════════════════════════════════════════ */
-    #cosmetiques {
-      background: #fff;
-      padding: 100px 8%;
-      position: relative;
-      overflow: hidden;
-    }
-
-    /* Motif décoratif en fond */
-    #cosmetiques::before {
-      content: '';
-      position: absolute; top: -120px; right: -120px;
-      width: 500px; height: 500px;
-      background: radial-gradient(circle, var(--violet-blush) 0%, transparent 70%);
-      pointer-events: none;
-    }
-    #cosmetiques::after {
-      content: '';
-      position: absolute; bottom: -80px; left: -80px;
-      width: 350px; height: 350px;
-      background: radial-gradient(circle, var(--gold-pale) 0%, transparent 70%);
-      pointer-events: none;
-      opacity: 0.5;
-    }
-
-    /* Bandeau catégories filtre */
-    .boutique-filters {
-      display: flex; gap: 10px; flex-wrap: wrap;
-      margin-bottom: 44px;
-    }
-    .bfilter {
-      padding: 8px 20px;
-      border: 1px solid var(--border);
-      border-radius: 100px;
-      font-family: var(--font-body);
-      font-size: 0.7rem; font-weight: 500;
-      letter-spacing: 0.14em; text-transform: uppercase;
-      color: var(--muted); background: transparent;
-      cursor: pointer; transition: all 0.25s ease;
-    }
-    .bfilter:hover, .bfilter.active {
-      background: var(--violet);
-      border-color: var(--violet);
-      color: #fff;
-    }
-
-    /* Grille produits */
-    .boutique-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 28px;
-      position: relative; z-index: 1;
-    }
-
-    /* Card produit */
-    .produit-card {
-      background: var(--cream);
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      overflow: hidden;
-      transition: all 0.35s cubic-bezier(0.23, 1, 0.32, 1);
-      position: relative;
-      display: flex; flex-direction: column;
-    }
-    .produit-card:hover {
-      transform: translateY(-10px);
-      box-shadow: 0 24px 60px rgba(61,26,92,0.13);
-      border-color: var(--violet-pale);
-    }
-
-    /* Badge promo / nouveauté */
-    .produit-badge {
-      position: absolute; top: 14px; left: 14px; z-index: 3;
-      font-size: 0.58rem; font-weight: 600;
-      letter-spacing: 0.12em; text-transform: uppercase;
-      padding: 5px 12px; border-radius: 100px;
-    }
-    .badge-new  { background: var(--violet); color: #fff; }
-    .badge-best { background: var(--gold);   color: var(--ink); }
-    .badge-promo{ background: #E8655A;       color: #fff; }
-
-    /* Zone photo */
-    .produit-img {
-      width: 100%;
-      aspect-ratio: 1 / 1;
-      position: relative;
-      overflow: hidden;
-      background: var(--violet-blush);
-      display: flex; align-items: center; justify-content: center;
-      flex-shrink: 0;
-    }
-
-    /* Dégradé de fond par catégorie */
-    .pi-visage { background: linear-gradient(145deg, #F0E8FA, #DEC9F5); }
-    .pi-corps   { background: linear-gradient(145deg, #FFF0E8, #F5D9C4); }
-    .pi-serum   { background: linear-gradient(145deg, #E8F0FA, #C4D5F0); }
-
-    /* Image réelle — se cachera si absente */
-    .produit-img img {
-      width: 100%; height: 100%;
-      object-fit: cover; object-position: center;
-      position: absolute; inset: 0;
-      transition: transform 0.5s ease;
-      z-index: 2;
-    }
-    .produit-card:hover .produit-img img {
-      transform: scale(1.06);
-    }
-
-    /* Icône placeholder quand pas de photo */
-    .produit-placeholder {
-      display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
-      gap: 10px; z-index: 1;
-      opacity: 0.5;
-    }
-    .produit-placeholder svg { width: 48px; height: 48px; stroke: var(--violet-mid); }
-    .produit-placeholder span {
-      font-size: 0.65rem; font-weight: 500;
-      letter-spacing: 0.14em; text-transform: uppercase;
-      color: var(--violet-mid);
-    }
-
-    /* Overlay action au survol */
-    .produit-overlay {
-      position: absolute; inset: 0; z-index: 4;
-      background: rgba(61,26,92,0.55);
-      display: flex; align-items: center; justify-content: center;
-      opacity: 0;
-      transition: opacity 0.3s ease;
-      backdrop-filter: blur(2px);
-    }
-    .produit-card:hover .produit-overlay { opacity: 1; }
-
-    .overlay-btn {
-      display: flex; align-items: center; gap: 8px;
-      padding: 12px 24px;
-      background: #fff; color: var(--violet);
-      border: none; border-radius: 100px;
-      font-family: var(--font-body);
-      font-size: 0.72rem; font-weight: 600;
-      letter-spacing: 0.1em; text-transform: uppercase;
-      cursor: pointer;
-      transform: translateY(8px);
-      transition: transform 0.3s cubic-bezier(0.23,1,0.32,1), box-shadow 0.3s;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.15);
-    }
-    .produit-card:hover .overlay-btn { transform: translateY(0); }
-    .overlay-btn:hover { box-shadow: 0 12px 32px rgba(0,0,0,0.25); }
-
-    /* Corps de la card */
-    .produit-body {
-      padding: 20px 22px 22px;
-      display: flex; flex-direction: column;
-      gap: 8px; flex: 1;
-    }
-
-    .produit-cat {
-      font-size: 0.6rem; font-weight: 500;
-      letter-spacing: 0.2em; text-transform: uppercase;
-      color: var(--muted);
-    }
-
-    .produit-name {
-      font-family: var(--font-display);
-      font-size: 1.2rem; font-weight: 500;
-      color: var(--violet); line-height: 1.2;
-    }
-
-    .produit-desc {
-      font-size: 0.78rem; font-weight: 300;
-      color: var(--muted); line-height: 1.7;
-      flex: 1;
-    }
-
-    /* Étoiles */
-    .produit-stars {
-      display: flex; gap: 2px; align-items: center;
-    }
-    .star { color: var(--gold); font-size: 0.75rem; }
-    .star-count { font-size: 0.65rem; color: var(--muted); margin-left: 5px; }
-
-    /* Prix + CTA */
-    .produit-footer {
-      display: flex; align-items: center;
-      justify-content: space-between;
-      margin-top: 14px;
-      padding-top: 14px;
-      border-top: 1px solid var(--border);
-    }
-
-    .produit-prix {
-      display: flex; flex-direction: column; gap: 1px;
-    }
-    .prix-main {
-      font-family: var(--font-display);
-      font-size: 1.4rem; font-weight: 600;
-      color: var(--violet); line-height: 1;
-    }
-    .prix-old {
-      font-size: 0.72rem; color: var(--muted);
-      text-decoration: line-through;
-    }
-
-    .btn-commander {
-      display: flex; align-items: center; gap: 6px;
-      padding: 9px 18px;
-      background: var(--violet);
-      color: #fff; border: none; border-radius: 100px;
-      font-family: var(--font-body);
-      font-size: 0.68rem; font-weight: 500;
-      letter-spacing: 0.1em; text-transform: uppercase;
-      cursor: pointer; text-decoration: none;
-      transition: all 0.25s ease;
-      white-space: nowrap;
-      -webkit-tap-highlight-color: transparent;
-      touch-action: manipulation;
-    }
-    .btn-commander:hover, .btn-commander:active {
-      background: var(--violet-mid);
-      transform: translateY(-2px);
-      box-shadow: 0 8px 24px rgba(61,26,92,0.3);
-    }
-
-    /* Banner info livraison */
-    .boutique-banner {
-      margin-top: 56px;
-      display: grid; grid-template-columns: repeat(3, 1fr);
-      gap: 20px; position: relative; z-index: 1;
-    }
-    .bb-item {
-      display: flex; align-items: center; gap: 16px;
-      padding: 20px 24px;
-      background: var(--violet-glass);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      transition: all 0.25s ease;
-    }
-    .bb-item:hover {
-      border-color: var(--violet-pale);
-      transform: translateY(-3px);
-    }
-    .bb-icon {
-      width: 44px; height: 44px; flex-shrink: 0;
-      background: var(--violet);
-      border-radius: 12px;
-      display: flex; align-items: center; justify-content: center;
-    }
-    .bb-text { display: flex; flex-direction: column; gap: 2px; }
-    .bb-title { font-size: 0.8rem; font-weight: 500; color: var(--violet); }
-    .bb-sub   { font-size: 0.7rem; font-weight: 300; color: var(--muted); }
-
-    /* Responsive boutique */
-    @media (max-width: 1024px) {
-      .boutique-grid { grid-template-columns: repeat(2, 1fr); }
-      .boutique-banner { grid-template-columns: 1fr 1fr; }
-    }
-    @media (max-width: 768px) {
-      #cosmetiques { padding: 64px 5%; }
-      .boutique-grid { grid-template-columns: repeat(2, 1fr); gap: 14px; }
-      .boutique-banner { grid-template-columns: 1fr; gap: 12px; }
-      .produit-name { font-size: 1rem; }
-      .produit-body { padding: 14px 16px 18px; }
-      .prix-main { font-size: 1.15rem; }
-    }
-    @media (max-width: 430px) {
-      .boutique-grid { grid-template-columns: 1fr; gap: 16px; }
-      .boutique-filters { gap: 8px; }
-      .bfilter { font-size: 0.64rem; padding: 7px 14px; }
-    }
-
-    /* ═══════════════════════════════════════════════
-       CV DOWNLOAD WIDGET
-    ═══════════════════════════════════════════════ */
-    .cv-widget {
-      margin-top: 40px;
-      background: linear-gradient(135deg, var(--violet) 0%, #2A0F44 100%);
-      border-radius: 20px;
-      padding: 28px 32px;
-      display: flex; align-items: center; gap: 24px;
-      position: relative; overflow: hidden;
-      box-shadow: 0 16px 48px rgba(61,26,92,0.25);
-    }
-
-    /* Ornement décoratif */
-    .cv-widget::before {
-      content: '';
-      position: absolute; top: -40px; right: -40px;
-      width: 180px; height: 180px;
-      border-radius: 50%;
-      border: 1px solid rgba(201,168,237,0.12);
-      pointer-events: none;
-    }
-    .cv-widget::after {
-      content: '';
-      position: absolute; bottom: -30px; right: 60px;
-      width: 120px; height: 120px;
-      border-radius: 50%;
-      border: 1px solid rgba(201,168,76,0.1);
-      pointer-events: none;
-    }
-
-    .cv-icon-wrap {
-      flex-shrink: 0;
-      width: 60px; height: 60px;
-      background: rgba(255,255,255,0.1);
-      border: 1px solid rgba(255,255,255,0.15);
-      border-radius: 16px;
-      display: flex; align-items: center; justify-content: center;
-      backdrop-filter: blur(8px);
-    }
-
-    .cv-content { flex: 1; }
-    .cv-label {
-      font-size: 0.62rem; font-weight: 500;
-      letter-spacing: 0.2em; text-transform: uppercase;
-      color: var(--gold); margin-bottom: 4px;
-    }
-    .cv-title {
-      font-family: var(--font-display);
-      font-size: 1.2rem; font-weight: 400;
-      color: #fff; line-height: 1.2;
-      margin-bottom: 6px;
-    }
-    .cv-sub {
-      font-size: 0.72rem; font-weight: 300;
-      color: rgba(255,255,255,0.5);
-    }
-
-    .cv-btn {
-      flex-shrink: 0;
-      display: flex; align-items: center; gap: 8px;
-      padding: 12px 22px;
-      background: var(--gold);
-      color: var(--ink);
-      border: none; border-radius: 100px;
-      font-family: var(--font-body);
-      font-size: 0.72rem; font-weight: 600;
-      letter-spacing: 0.1em; text-transform: uppercase;
-      cursor: pointer; text-decoration: none;
-      transition: all 0.3s cubic-bezier(0.23,1,0.32,1);
-      white-space: nowrap;
-      position: relative; z-index: 1;
-    }
-    .cv-btn:hover {
-      background: #fff;
-      transform: translateY(-3px) scale(1.03);
-      box-shadow: 0 10px 28px rgba(0,0,0,0.2);
-    }
-    .cv-btn svg { transition: transform 0.3s ease; }
-    .cv-btn:hover svg { transform: translateY(2px); }
-
-    /* Responsive CV widget */
-    @media (max-width: 600px) {
-      .cv-widget { flex-direction: column; align-items: flex-start; gap: 18px; padding: 22px 22px; }
-      .cv-btn { align-self: stretch; justify-content: center; }
-    }
-
-    /* ═══════════════════════════════════════════════
-       PARFUM — couleur produit
-    ═══════════════════════════════════════════════ */
-    .pi-parfum {
-      background: linear-gradient(145deg, #1A0A2E, #3D1A5C);
-    }
-    .pi-parfum2 {
-      background: linear-gradient(145deg, #2E1A0A, #5C3A1A);
-    }
-    .pi-parfum3 {
-      background: linear-gradient(145deg, #0A1A2E, #1A3A5C);
-    }
-
-    /* Chouchou — tons rose poudré & mauve */
-    .pi-chouchou1 { background: linear-gradient(145deg, #FAE8F5, #F0C8E8); }
-    .pi-chouchou2 { background: linear-gradient(145deg, #F5E8FA, #E0C0F0); }
-    .pi-chouchou3 { background: linear-gradient(145deg, #FAF0E8, #F5D8C0); }
-
-    /* Badge chouchou */
-    .badge-chouchou { background: #D4589A; color: #fff; }
-
-    /* ═══════════════════════════════════════════════
-       MODALE PRODUIT
-    ═══════════════════════════════════════════════ */
-    .modal-overlay {
-      position: fixed; inset: 0; z-index: 9000;
-      background: rgba(26,10,46,0.72);
-      backdrop-filter: blur(6px);
-      -webkit-backdrop-filter: blur(6px);
-      display: flex; align-items: center; justify-content: center;
-      padding: 20px;
-      opacity: 0; visibility: hidden;
-      transition: opacity 0.35s ease, visibility 0.35s ease;
-      /* Empêche le scroll du body derrière */
-      overscroll-behavior: contain;
-    }
-    .modal-overlay.open { opacity: 1; visibility: visible; }
-
-    .modal-box {
-      background: var(--cream);
-      border-radius: 24px;
-      width: 100%; max-width: 820px;
-      max-height: 90vh;
-      overflow: hidden;           /* le scroll est dans modal-body */
-      display: grid; grid-template-columns: 1fr 1fr;
-      position: relative;
-      transform: translateY(30px) scale(0.97);
-      transition: transform 0.4s cubic-bezier(0.23,1,0.32,1);
-      box-shadow: 0 40px 100px rgba(61,26,92,0.3);
-    }
-    .modal-overlay.open .modal-box {
-      transform: translateY(0) scale(1);
-    }
-
-    .modal-close {
-      position: absolute; top: 16px; right: 16px; z-index: 10;
-      width: 38px; height: 38px;
-      background: rgba(255,255,255,0.92);
-      border: 1px solid var(--border);
-      border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      cursor: pointer; font-size: 1rem;
-      color: var(--violet); line-height: 1;
-      transition: all 0.2s ease;
-      /* Toujours accessible au touch */
-      -webkit-tap-highlight-color: transparent;
-      touch-action: manipulation;
-    }
-    .modal-close:hover, .modal-close:active { background: var(--violet); color: #fff; transform: scale(1.1); }
-
-    .modal-img {
-      border-radius: 24px 0 0 24px;
-      min-height: 380px;
-      display: flex; align-items: center; justify-content: center;
-      position: relative; overflow: hidden;
-    }
-    .modal-img img {
-      width: 100%; height: 100%;
-      object-fit: cover; object-position: center;
-      position: absolute; inset: 0;
-    }
-    .modal-img-placeholder {
-      display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
-      gap: 12px; padding: 32px; text-align: center;
-      opacity: 0.5; z-index: 1;
-    }
-    .modal-img-placeholder svg { width: 64px; height: 64px; }
-    .modal-img-placeholder span {
-      font-size: 0.7rem; letter-spacing: 0.14em;
-      text-transform: uppercase; color: var(--muted);
-    }
-
-    .modal-body {
-      padding: 40px 36px;
-      display: flex; flex-direction: column; gap: 14px;
-      overflow-y: auto;           /* scroll dans le body seulement */
-      max-height: 90vh;
-      -webkit-overflow-scrolling: touch;
-    }
-
-    .modal-cat {
-      font-size: 0.62rem; font-weight: 500;
-      letter-spacing: 0.2em; text-transform: uppercase;
-      color: var(--gold); display: flex; align-items: center; gap: 10px;
-    }
-    .modal-cat::before { content: ''; width: 24px; height: 1px; background: var(--gold); }
-
-    .modal-name {
-      font-family: var(--font-display);
-      font-size: clamp(1.6rem, 3vw, 2.2rem);
-      font-weight: 400; color: var(--violet); line-height: 1.15;
-    }
-
-    .modal-stars { display: flex; gap: 3px; align-items: center; }
-    .modal-stars .star { font-size: 0.9rem; color: var(--gold); }
-    .modal-stars .star-count { font-size: 0.72rem; color: var(--muted); margin-left: 6px; }
-
-    .modal-divider { width: 40px; height: 1px; background: linear-gradient(90deg, var(--gold), transparent); }
-
-    .modal-desc { font-size: 0.88rem; font-weight: 300; color: #4A3A5A; line-height: 1.9; }
-
-    .modal-details {
-      display: flex; flex-direction: column; gap: 8px;
-      background: var(--violet-glass); border: 1px solid var(--border);
-      border-radius: 12px; padding: 16px 18px;
-    }
-    .modal-detail-row {
-      display: flex; justify-content: space-between; align-items: center; font-size: 0.78rem;
-    }
-    .modal-detail-row span:first-child { color: var(--muted); font-weight: 400; letter-spacing: 0.06em; }
-    .modal-detail-row span:last-child  { color: var(--violet); font-weight: 500; }
-
-    .modal-prix-row {
-      display: flex; align-items: center;
-      justify-content: space-between; gap: 16px; margin-top: 4px;
-    }
-    .modal-prix-wrap { display: flex; flex-direction: column; }
-    .modal-prix-main {
-      font-family: var(--font-display);
-      font-size: 2rem; font-weight: 600; color: var(--violet); line-height: 1;
-    }
-    .modal-prix-old { font-size: 0.78rem; color: var(--muted); text-decoration: line-through; }
-
-    .modal-btn-commander {
-      flex: 1;
-      display: flex; align-items: center; justify-content: center; gap: 8px;
-      padding: 14px 20px;
-      background: #25D366; color: #fff;
-      border: none; border-radius: 100px;
-      font-family: var(--font-body); font-size: 0.78rem; font-weight: 600;
-      letter-spacing: 0.08em; text-transform: uppercase;
-      cursor: pointer; text-decoration: none;
-      transition: all 0.3s ease;
-      -webkit-tap-highlight-color: transparent;
-      touch-action: manipulation;
-      white-space: nowrap;
-    }
-    .modal-btn-commander:hover, .modal-btn-commander:active {
-      background: #1eb355;
-      transform: translateY(-2px);
-      box-shadow: 0 10px 28px rgba(37,211,102,0.4);
-    }
-
-    /* Responsive modale — géré dans @media 768px ci-dessus */
-
-    /* ═══════════════════════════════════════════════
-       BOUTON WHATSAPP FLOTTANT
-    ═══════════════════════════════════════════════ */
-    .whatsapp-float {
-      position: fixed; bottom: 32px; left: 28px; z-index: 998;
-      display: flex; align-items: center; gap: 10px;
-      background: #25D366;
-      color: #fff; text-decoration: none;
-      padding: 12px 20px 12px 14px;
-      border-radius: 100px;
-      font-family: var(--font-body);
-      font-size: 0.78rem; font-weight: 600;
-      letter-spacing: 0.06em;
-      box-shadow: 0 8px 28px rgba(37,211,102,0.4);
-      transition: all 0.3s cubic-bezier(0.23,1,0.32,1);
-      animation: waPulse 2.5s ease-in-out infinite;
-    }
-    .whatsapp-float:hover {
-      transform: translateY(-4px) scale(1.04);
-      box-shadow: 0 14px 36px rgba(37,211,102,0.55);
-      animation: none;
-    }
-    .whatsapp-float svg { flex-shrink: 0; }
-    .wa-text { display: flex; flex-direction: column; line-height: 1.2; }
-    .wa-text span:first-child { font-size: 0.65rem; opacity: 0.85; font-weight: 400; }
-    .wa-text span:last-child  { font-size: 0.8rem; font-weight: 700; }
-
-    @keyframes waPulse {
-      0%,100% { box-shadow: 0 8px 28px rgba(37,211,102,0.4); }
-      50%      { box-shadow: 0 8px 40px rgba(37,211,102,0.65), 0 0 0 8px rgba(37,211,102,0.08); }
-    }
-
-    @media (max-width: 480px) {
-      .whatsapp-float { left: 14px; bottom: 20px; padding: 10px 14px 10px 12px; }
-      .wa-text span:last-child { font-size: 0.72rem; }
-    }
-
-    /* Style contact items cliquables */
-    .contact-item a { color: inherit; text-decoration: none; }
-    .ci-val.clickable {
-      display: flex; align-items: center; gap: 6px;
-      font-weight: 500;
-    }
-    .ci-val.clickable::after {
-      content: '↗'; font-size: 0.7rem; opacity: 0.5;
-    }
-
-    /* ═══════════════════════════════════════════════
-       SCROLL TO TOP
-    ═══════════════════════════════════════════════ */
-    #scroll-top {
-      position: fixed; bottom: 32px; right: 28px;
-      width: 50px; height: 50px;
-      background: var(--violet);
-      border: 1px solid rgba(201, 168, 237, 0.25);
-      border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      cursor: pointer; z-index: 999;
-      opacity: 0; visibility: hidden;
-      transform: translateY(16px) scale(0.9);
-      transition: opacity 0.35s ease, visibility 0.35s ease,
-                  transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
-                  background 0.25s ease, box-shadow 0.25s ease;
-      box-shadow: 0 6px 24px rgba(61, 26, 92, 0.35);
-    }
-    #scroll-top.visible { opacity: 1; visibility: visible; transform: translateY(0) scale(1); }
-    #scroll-top:hover {
-      background: var(--violet-mid);
-      box-shadow: 0 10px 36px rgba(61, 26, 92, 0.5);
-      transform: translateY(-4px) scale(1.08);
-    }
-    #scroll-top svg {
-      width: 18px; height: 18px;
-      stroke: #fff; stroke-width: 2.5;
-      stroke-linecap: round; stroke-linejoin: round;
-      fill: none;
-      transition: transform 0.2s ease;
-    }
-    #scroll-top:hover svg { transform: translateY(-2px); }
-    #scroll-top::before {
-      content: ''; position: absolute; inset: -6px;
-      border-radius: 50%;
-      border: 1px solid rgba(201, 168, 76, 0.35);
-      opacity: 0; transform: scale(0.85);
-      transition: opacity 0.3s ease, transform 0.3s ease;
-    }
-    #scroll-top:hover::before { opacity: 1; transform: scale(1); }
-
-    /* ═══════════════════════════════════════════════
-       IMAGES — styles prêts pour les vraies photos
-    ═══════════════════════════════════════════════ */
-    .hero-portrait img {
-      width: 100%; height: 100%;
-      object-fit: cover; object-position: center top;
-      border-radius: inherit;
-    }
-    .about-frame img {
-      width: 100%; height: 100%;
-      object-fit: cover; object-position: center;
-      border-radius: 2px 60px 2px 60px;
-    }
-    .recipe-img { position: relative; }
-    .recipe-img img {
-      width: 100%; height: 100%;
-      object-fit: cover; object-position: center;
-      position: absolute; inset: 0; z-index: 0;
-    }
-    .recipe-img .recipe-emoji,
-    .recipe-img .recipe-badge { position: relative; z-index: 2; }
-    .tricot-thumb img {
-      width: 100%; height: 100%;
-      object-fit: cover; object-position: center;
-    }
-  </style>
+  <!-- Custom stylesheet -->
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-
-  
 
   <!-- MODALE PRODUIT -->
   <div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
@@ -2021,7 +87,7 @@
   <!-- PÉTALES CANVAS -->
   <canvas id="petals-canvas"></canvas>
 
-  <!-- BOUTON SCROLL TO TOP -->
+  <!-- SCROLL TO TOP -->
   <button id="scroll-top" aria-label="Retour en haut de page" title="Haut de page">
     <svg viewBox="0 0 24 24">
       <polyline points="18 15 12 9 6 15"></polyline>
@@ -2190,7 +256,7 @@
         <div class="cv-content">
           <p class="cv-label">Mon parcours professionnel</p>
           <h3 class="cv-title">Curriculum Vitæ</h3>
-          <p class="cv-sub">Téléchargez mon CV complet — formations, expériences & compétences</p>
+          <p class="cv-sub">Téléchargez mon CV complet — formations, expériences &amp; compétences</p>
         </div>
         <a href="assets/cv/tatiana-cv.pdf" download="CV-Tatiana-Gnihan.pdf" class="cv-btn" id="cvBtn">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" width="15" height="15">
@@ -2273,7 +339,6 @@
     </div>
 
     <div class="recipes-layout">
-      <!-- Featured -->
       <div class="recipe-card featured reveal">
         <div class="recipe-img r-bg-1">
           <img src="assets/images/cuisine/attieke.jpg" alt="Attiéké Poisson Braisé" />
@@ -2302,7 +367,6 @@
         </div>
       </div>
 
-      <!-- Card 2 -->
       <div class="recipe-card reveal reveal-delay-1">
         <div class="recipe-img r-bg-2">
           <img src="assets/images/cuisine/sauce-graine.jpg" alt="Sauce Graine" />
@@ -2324,7 +388,6 @@
         </div>
       </div>
 
-      <!-- Card 3 -->
       <div class="recipe-card reveal reveal-delay-2">
         <div class="recipe-img r-bg-3">
           <img src="assets/images/cuisine/alloco.jpg" alt="Alloco Sauté" />
@@ -2346,7 +409,6 @@
         </div>
       </div>
 
-      <!-- Card 4 -->
       <div class="recipe-card reveal reveal-delay-3">
         <div class="recipe-img r-bg-4">
           <img src="assets/images/cuisine/gateau-chocolat.jpg" alt="Gâteau au Chocolat" />
@@ -2435,14 +497,12 @@
 
   <!-- BOUTIQUE COSMÉTIQUE -->
   <section id="cosmetiques">
-
     <div class="reveal">
       <p class="section-eyebrow">Boutique</p>
       <h2 class="section-title">Soins, Parfums &amp; <em>Accessoires</em></h2>
       <div class="section-divider"></div>
     </div>
 
-    <!-- Filtres -->
     <div class="boutique-filters reveal reveal-delay-1">
       <button class="bfilter active" onclick="filterProduits(this,'tous')">Tous les produits</button>
       <button class="bfilter" onclick="filterProduits(this,'visage')">Soins visage</button>
@@ -2451,7 +511,6 @@
       <button class="bfilter" onclick="filterProduits(this,'chouchou')">🎀 Chouchou</button>
     </div>
 
-    <!-- Grille produits -->
     <div class="boutique-grid" id="boutique-grid">
 
       <!-- Produit 1 -->
@@ -2617,7 +676,7 @@
         <div class="produit-body">
           <span class="produit-cat">Soin corps</span>
           <h3 class="produit-name">Lotion Karité Fondante</h3>
-          <p class="produit-desc">Texture crémeuse ultra-nourrissante au karité pur d'Afrique de l'Ouest. Hydratation longue durée pour tous types de peau.</p>
+          <p class="produit-desc">Texture crémeuse ultra-nourrissante au karité pur d'Afrique de l'Ouest. Hydratation longue durée.</p>
           <div class="produit-stars">
             <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star" style="color:var(--muted)">★</span>
             <span class="star-count">(19 avis)</span>
@@ -2654,7 +713,7 @@
         <div class="produit-body">
           <span class="produit-cat">Soin corps</span>
           <h3 class="produit-name">Gommage Sucre &amp; Coco</h3>
-          <p class="produit-desc">Exfoliant doux naturel à la noix de coco et au sucre de canne. Élimine les cellules mortes et révèle l'éclat de la peau.</p>
+          <p class="produit-desc">Exfoliant doux naturel à la noix de coco et au sucre de canne. Révèle l'éclat naturel de la peau.</p>
           <div class="produit-stars">
             <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
             <span class="star-count">(11 avis)</span>
@@ -2671,47 +730,25 @@
         </div>
       </div>
 
-
-      <!-- ── PARFUMS ────────────────────────────────── -->
-
       <!-- Parfum 1 -->
       <div class="produit-card reveal reveal-delay-1" data-cat="parfum">
         <span class="produit-badge badge-best">Best-seller</span>
         <div class="produit-img pi-parfum">
           <div class="produit-placeholder" style="opacity:0.6;">
-            <svg viewBox="0 0 24 24" fill="none" stroke="#C9AEED" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" width="48" height="48">
-              <path d="M9 3h6v3a3 3 0 0 1-3 3 3 3 0 0 1-3-3V3z"/>
-              <path d="M12 9v2"/>
-              <rect x="5" y="11" width="14" height="10" rx="2"/>
-              <path d="M8 11v-1a4 4 0 0 1 8 0v1"/>
-            </svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke="#C9AEED" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" width="48" height="48"><path d="M9 3h6v3a3 3 0 0 1-3 3 3 3 0 0 1-3-3V3z"/><path d="M12 9v2"/><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11v-1a4 4 0 0 1 8 0v1"/></svg>
             <span style="color:#C9AEED;">Photo à ajouter</span>
           </div>
           <img src="assets/images/cosmetiques/parfum-rose-oud.jpg" alt="Rose & Oud" onerror="this.style.display='none'" />
-          <div class="produit-overlay">
-            <button class="overlay-btn">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-              Voir le produit
-            </button>
-          </div>
+          <div class="produit-overlay"><button class="overlay-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>Voir le produit</button></div>
         </div>
         <div class="produit-body">
           <span class="produit-cat">Parfum · Eau de parfum</span>
           <h3 class="produit-name">Rose &amp; Oud Mystique</h3>
-          <p class="produit-desc">Notes de tête : rose de Damas · cœur : oud précieux · fond : musc blanc. Un sillage envoûtant qui dure toute la journée.</p>
-          <div class="produit-stars">
-            <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
-            <span class="star-count">(38 avis)</span>
-          </div>
+          <p class="produit-desc">Notes de tête : rose de Damas · cœur : oud précieux · fond : musc blanc. Un sillage envoûtant.</p>
+          <div class="produit-stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star-count">(38 avis)</span></div>
           <div class="produit-footer">
-            <div class="produit-prix">
-              <span class="prix-main">12 500 FCFA</span>
-              <span class="prix-old">15 000 FCFA</span>
-            </div>
-            <a href="#contact" class="btn-commander">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="13" height="13"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/></svg>
-              Commander
-            </a>
+            <div class="produit-prix"><span class="prix-main">12 500 FCFA</span><span class="prix-old">15 000 FCFA</span></div>
+            <a href="#contact" class="btn-commander"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="13" height="13"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/></svg>Commander</a>
           </div>
         </div>
       </div>
@@ -2720,39 +757,18 @@
       <div class="produit-card reveal reveal-delay-2" data-cat="parfum">
         <span class="produit-badge badge-new">Nouveau</span>
         <div class="produit-img pi-parfum2">
-          <div class="produit-placeholder" style="opacity:0.6;">
-            <svg viewBox="0 0 24 24" fill="none" stroke="#E0C89A" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" width="48" height="48">
-              <path d="M9 3h6v3a3 3 0 0 1-3 3 3 3 0 0 1-3-3V3z"/>
-              <path d="M12 9v2"/>
-              <rect x="5" y="11" width="14" height="10" rx="2"/>
-              <path d="M8 11v-1a4 4 0 0 1 8 0v1"/>
-            </svg>
-            <span style="color:#E0C89A;">Photo à ajouter</span>
-          </div>
+          <div class="produit-placeholder" style="opacity:0.6;"><svg viewBox="0 0 24 24" fill="none" stroke="#E0C89A" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" width="48" height="48"><path d="M9 3h6v3a3 3 0 0 1-3 3 3 3 0 0 1-3-3V3z"/><path d="M12 9v2"/><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11v-1a4 4 0 0 1 8 0v1"/></svg><span style="color:#E0C89A;">Photo à ajouter</span></div>
           <img src="assets/images/cosmetiques/parfum-vanille-ambre.jpg" alt="Vanille & Ambre" onerror="this.style.display='none'" />
-          <div class="produit-overlay">
-            <button class="overlay-btn">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-              Voir le produit
-            </button>
-          </div>
+          <div class="produit-overlay"><button class="overlay-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>Voir le produit</button></div>
         </div>
         <div class="produit-body">
           <span class="produit-cat">Parfum · Eau de parfum</span>
           <h3 class="produit-name">Vanille &amp; Ambre Doré</h3>
-          <p class="produit-desc">Notes de tête : fleur d'oranger · cœur : vanille bourbon · fond : ambre chaud. Douceur et sensualité à l'état pur.</p>
-          <div class="produit-stars">
-            <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
-            <span class="star-count">(21 avis)</span>
-          </div>
+          <p class="produit-desc">Notes de tête : fleur d'oranger · cœur : vanille bourbon · fond : ambre chaud. Douceur et sensualité.</p>
+          <div class="produit-stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star-count">(21 avis)</span></div>
           <div class="produit-footer">
-            <div class="produit-prix">
-              <span class="prix-main">11 000 FCFA</span>
-            </div>
-            <a href="#contact" class="btn-commander">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="13" height="13"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/></svg>
-              Commander
-            </a>
+            <div class="produit-prix"><span class="prix-main">11 000 FCFA</span></div>
+            <a href="#contact" class="btn-commander"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="13" height="13"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/></svg>Commander</a>
           </div>
         </div>
       </div>
@@ -2761,84 +777,38 @@
       <div class="produit-card reveal reveal-delay-3" data-cat="parfum">
         <span class="produit-badge badge-promo">-15%</span>
         <div class="produit-img pi-parfum3">
-          <div class="produit-placeholder" style="opacity:0.6;">
-            <svg viewBox="0 0 24 24" fill="none" stroke="#A8B8E0" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" width="48" height="48">
-              <path d="M9 3h6v3a3 3 0 0 1-3 3 3 3 0 0 1-3-3V3z"/>
-              <path d="M12 9v2"/>
-              <rect x="5" y="11" width="14" height="10" rx="2"/>
-              <path d="M8 11v-1a4 4 0 0 1 8 0v1"/>
-            </svg>
-            <span style="color:#A8B8E0;">Photo à ajouter</span>
-          </div>
+          <div class="produit-placeholder" style="opacity:0.6;"><svg viewBox="0 0 24 24" fill="none" stroke="#A8B8E0" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" width="48" height="48"><path d="M9 3h6v3a3 3 0 0 1-3 3 3 3 0 0 1-3-3V3z"/><path d="M12 9v2"/><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11v-1a4 4 0 0 1 8 0v1"/></svg><span style="color:#A8B8E0;">Photo à ajouter</span></div>
           <img src="assets/images/cosmetiques/parfum-jasmin-bois.jpg" alt="Jasmin & Bois" onerror="this.style.display='none'" />
-          <div class="produit-overlay">
-            <button class="overlay-btn">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-              Voir le produit
-            </button>
-          </div>
+          <div class="produit-overlay"><button class="overlay-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>Voir le produit</button></div>
         </div>
         <div class="produit-body">
           <span class="produit-cat">Parfum · Eau de toilette</span>
           <h3 class="produit-name">Jasmin &amp; Bois Précieux</h3>
-          <p class="produit-desc">Notes de tête : jasmin frais · cœur : bois de santal · fond : cèdre et patchouli. Fraîcheur florale et profondeur boisée.</p>
-          <div class="produit-stars">
-            <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star" style="color:var(--muted)">★</span>
-            <span class="star-count">(14 avis)</span>
-          </div>
+          <p class="produit-desc">Notes de tête : jasmin frais · cœur : bois de santal · fond : cèdre et patchouli.</p>
+          <div class="produit-stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star" style="color:var(--muted)">★</span><span class="star-count">(14 avis)</span></div>
           <div class="produit-footer">
-            <div class="produit-prix">
-              <span class="prix-main">8 500 FCFA</span>
-              <span class="prix-old">10 000 FCFA</span>
-            </div>
-            <a href="#contact" class="btn-commander">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="13" height="13"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/></svg>
-              Commander
-            </a>
+            <div class="produit-prix"><span class="prix-main">8 500 FCFA</span><span class="prix-old">10 000 FCFA</span></div>
+            <a href="#contact" class="btn-commander"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="13" height="13"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/></svg>Commander</a>
           </div>
         </div>
       </div>
-
-      <!-- ── CHOUCHOU ─────────────────────────────────── -->
 
       <!-- Chouchou 1 -->
       <div class="produit-card reveal reveal-delay-1" data-cat="chouchou">
         <span class="produit-badge badge-chouchou">🎀 Chouchou</span>
         <div class="produit-img pi-chouchou1">
-          <div class="produit-placeholder">
-            <svg viewBox="0 0 24 24" fill="none" stroke="#D4589A" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" width="48" height="48">
-              <path d="M12 3c-1.5 0-3 1.5-3 3s1.5 3 3 3 3-1.5 3-3-1.5-3-3-3z"/>
-              <path d="M3 12c0-1.5 1.5-3 3-3s3 1.5 3 3-1.5 3-3 3-3-1.5-3-3z"/>
-              <path d="M21 12c0-1.5-1.5-3-3-3s-3 1.5-3 3 1.5 3 3 3 3-1.5 3-3z"/>
-              <path d="M12 15c-1.5 0-3 1.5-3 3s1.5 3 3 3 3-1.5 3-3-1.5-3-3-3z"/>
-              <circle cx="12" cy="12" r="2" fill="#D4589A"/>
-            </svg>
-            <span style="color:#D4589A;">Photo à ajouter</span>
-          </div>
+          <div class="produit-placeholder"><svg viewBox="0 0 24 24" fill="none" stroke="#D4589A" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" width="48" height="48"><path d="M12 3c-1.5 0-3 1.5-3 3s1.5 3 3 3 3-1.5 3-3-1.5-3-3-3z"/><path d="M3 12c0-1.5 1.5-3 3-3s3 1.5 3 3-1.5 3-3 3-3-1.5-3-3z"/><path d="M21 12c0-1.5-1.5-3-3-3s-3 1.5-3 3 1.5 3 3 3 3-1.5 3-3z"/><path d="M12 15c-1.5 0-3 1.5-3 3s1.5 3 3 3 3-1.5 3-3-1.5-3-3-3z"/><circle cx="12" cy="12" r="2" fill="#D4589A"/></svg><span style="color:#D4589A;">Photo à ajouter</span></div>
           <img src="assets/images/cosmetiques/chouchou-satin-rose.jpg" alt="Chouchou Satin Rose" onerror="this.style.display='none'" />
-          <div class="produit-overlay">
-            <button class="overlay-btn">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-              Voir le produit
-            </button>
-          </div>
+          <div class="produit-overlay"><button class="overlay-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>Voir le produit</button></div>
         </div>
         <div class="produit-body">
           <span class="produit-cat">Chouchou · Accessoire cheveux</span>
           <h3 class="produit-name">Chouchou Satin Rose</h3>
-          <p class="produit-desc">Élastique en satin doux pour cheveux. Réduit les frisottis et les casses. Idéal pour tous types de cheveux, surtout crépus et bouclés.</p>
-          <div class="produit-stars">
-            <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
-            <span class="star-count">(52 avis)</span>
-          </div>
+          <p class="produit-desc">Élastique en satin doux. Réduit les frisottis et les casses. Idéal pour cheveux crépus et bouclés.</p>
+          <div class="produit-stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star-count">(52 avis)</span></div>
           <div class="produit-footer">
-            <div class="produit-prix">
-              <span class="prix-main">500 FCFA</span>
-            </div>
-            <a href="#contact" class="btn-commander">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="13" height="13"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/></svg>
-              Commander
-            </a>
+            <div class="produit-prix"><span class="prix-main">500 FCFA</span></div>
+            <a href="#contact" class="btn-commander"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="13" height="13"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/></svg>Commander</a>
           </div>
         </div>
       </div>
@@ -2847,40 +817,18 @@
       <div class="produit-card reveal reveal-delay-2" data-cat="chouchou">
         <span class="produit-badge badge-best">Best-seller</span>
         <div class="produit-img pi-chouchou2">
-          <div class="produit-placeholder">
-            <svg viewBox="0 0 24 24" fill="none" stroke="#9B59B6" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" width="48" height="48">
-              <path d="M12 3c-1.5 0-3 1.5-3 3s1.5 3 3 3 3-1.5 3-3-1.5-3-3-3z"/>
-              <path d="M3 12c0-1.5 1.5-3 3-3s3 1.5 3 3-1.5 3-3 3-3-1.5-3-3z"/>
-              <path d="M21 12c0-1.5-1.5-3-3-3s-3 1.5-3 3 1.5 3 3 3 3-1.5 3-3z"/>
-              <path d="M12 15c-1.5 0-3 1.5-3 3s1.5 3 3 3 3-1.5 3-3-1.5-3-3-3z"/>
-              <circle cx="12" cy="12" r="2" fill="#9B59B6"/>
-            </svg>
-            <span style="color:#9B59B6;">Photo à ajouter</span>
-          </div>
+          <div class="produit-placeholder"><svg viewBox="0 0 24 24" fill="none" stroke="#9B59B6" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" width="48" height="48"><path d="M12 3c-1.5 0-3 1.5-3 3s1.5 3 3 3 3-1.5 3-3-1.5-3-3-3z"/><path d="M3 12c0-1.5 1.5-3 3-3s3 1.5 3 3-1.5 3-3 3-3-1.5-3-3z"/><path d="M21 12c0-1.5-1.5-3-3-3s-3 1.5-3 3 1.5 3 3 3 3-1.5 3-3z"/><path d="M12 15c-1.5 0-3 1.5-3 3s1.5 3 3 3 3-1.5 3-3-1.5-3-3-3z"/><circle cx="12" cy="12" r="2" fill="#9B59B6"/></svg><span style="color:#9B59B6;">Photo à ajouter</span></div>
           <img src="assets/images/cosmetiques/chouchou-velours-mauve.jpg" alt="Chouchou Velours Mauve" onerror="this.style.display='none'" />
-          <div class="produit-overlay">
-            <button class="overlay-btn">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-              Voir le produit
-            </button>
-          </div>
+          <div class="produit-overlay"><button class="overlay-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>Voir le produit</button></div>
         </div>
         <div class="produit-body">
           <span class="produit-cat">Chouchou · Accessoire cheveux</span>
           <h3 class="produit-name">Chouchou Velours Mauve</h3>
-          <p class="produit-desc">Chouchou en velours épais ultra tendance. Tenue parfaite toute la journée, sans marque ni douleur. Style et confort réunis.</p>
-          <div class="produit-stars">
-            <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
-            <span class="star-count">(67 avis)</span>
-          </div>
+          <p class="produit-desc">Chouchou en velours épais ultra tendance. Tenue parfaite toute la journée, sans marque ni douleur.</p>
+          <div class="produit-stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star-count">(67 avis)</span></div>
           <div class="produit-footer">
-            <div class="produit-prix">
-              <span class="prix-main">750 FCFA</span>
-            </div>
-            <a href="#contact" class="btn-commander">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="13" height="13"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/></svg>
-              Commander
-            </a>
+            <div class="produit-prix"><span class="prix-main">750 FCFA</span></div>
+            <a href="#contact" class="btn-commander"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="13" height="13"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/></svg>Commander</a>
           </div>
         </div>
       </div>
@@ -2889,40 +837,18 @@
       <div class="produit-card reveal reveal-delay-3" data-cat="chouchou">
         <span class="produit-badge badge-new">Nouveau</span>
         <div class="produit-img pi-chouchou3">
-          <div class="produit-placeholder">
-            <svg viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" width="48" height="48">
-              <path d="M12 3c-1.5 0-3 1.5-3 3s1.5 3 3 3 3-1.5 3-3-1.5-3-3-3z"/>
-              <path d="M3 12c0-1.5 1.5-3 3-3s3 1.5 3 3-1.5 3-3 3-3-1.5-3-3z"/>
-              <path d="M21 12c0-1.5-1.5-3-3-3s-3 1.5-3 3 1.5 3 3 3 3-1.5 3-3z"/>
-              <path d="M12 15c-1.5 0-3 1.5-3 3s1.5 3 3 3 3-1.5 3-3-1.5-3-3-3z"/>
-              <circle cx="12" cy="12" r="2" fill="#C9A84C"/>
-            </svg>
-            <span style="color:#C9A84C;">Photo à ajouter</span>
-          </div>
+          <div class="produit-placeholder"><svg viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" width="48" height="48"><path d="M12 3c-1.5 0-3 1.5-3 3s1.5 3 3 3 3-1.5 3-3-1.5-3-3-3z"/><path d="M3 12c0-1.5 1.5-3 3-3s3 1.5 3 3-1.5 3-3 3-3-1.5-3-3z"/><path d="M21 12c0-1.5-1.5-3-3-3s-3 1.5-3 3 1.5 3 3 3 3-1.5 3-3z"/><path d="M12 15c-1.5 0-3 1.5-3 3s1.5 3 3 3 3-1.5 3-3-1.5-3-3-3z"/><circle cx="12" cy="12" r="2" fill="#C9A84C"/></svg><span style="color:#C9A84C;">Photo à ajouter</span></div>
           <img src="assets/images/cosmetiques/chouchou-perles-dorees.jpg" alt="Chouchou Perles Dorées" onerror="this.style.display='none'" />
-          <div class="produit-overlay">
-            <button class="overlay-btn">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-              Voir le produit
-            </button>
-          </div>
+          <div class="produit-overlay"><button class="overlay-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>Voir le produit</button></div>
         </div>
         <div class="produit-body">
           <span class="produit-cat">Chouchou · Accessoire cheveux</span>
           <h3 class="produit-name">Chouchou Perles Dorées</h3>
-          <p class="produit-desc">Chouchou tissé orné de petites perles dorées pour un look élégant et raffiné. Parfait pour une tenue de soirée ou du quotidien chic.</p>
-          <div class="produit-stars">
-            <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
-            <span class="star-count">(29 avis)</span>
-          </div>
+          <p class="produit-desc">Chouchou tissé orné de petites perles dorées pour un look élégant et raffiné. Parfait pour une soirée chic.</p>
+          <div class="produit-stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star-count">(29 avis)</span></div>
           <div class="produit-footer">
-            <div class="produit-prix">
-              <span class="prix-main">1 000 FCFA</span>
-            </div>
-            <a href="#contact" class="btn-commander">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="13" height="13"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/></svg>
-              Commander
-            </a>
+            <div class="produit-prix"><span class="prix-main">1 000 FCFA</span></div>
+            <a href="#contact" class="btn-commander"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="13" height="13"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/></svg>Commander</a>
           </div>
         </div>
       </div>
@@ -3019,7 +945,6 @@
       </p>
 
       <div class="contact-items">
-        <!-- WhatsApp -->
         <div class="contact-item reveal reveal-delay-3" style="border-color:rgba(37,211,102,0.3); background:rgba(37,211,102,0.04);">
           <div class="ci-icon" style="background:rgba(37,211,102,0.12); border-color:rgba(37,211,102,0.2);">
             <svg viewBox="0 0 24 24" fill="#25D366" width="20" height="20">
@@ -3033,7 +958,6 @@
             </a>
           </div>
         </div>
-        <!-- Téléphone -->
         <div class="contact-item reveal reveal-delay-3">
           <div class="ci-icon">
             <svg viewBox="0 0 24 24" fill="none" stroke="var(--violet)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="20" height="20"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.42 2 2 0 0 1 3.6 1.24h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.83a16 16 0 0 0 6.29 6.29l.95-.96a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
@@ -3045,7 +969,6 @@
             </a>
           </div>
         </div>
-        <!-- Localisation -->
         <div class="contact-item reveal reveal-delay-4">
           <div class="ci-icon">
             <svg viewBox="0 0 24 24" fill="none" stroke="var(--violet)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="20" height="20"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
@@ -3055,7 +978,6 @@
             <span class="ci-val">Côte d'Ivoire, Abidjan</span>
           </div>
         </div>
-        <!-- Disponibilités -->
         <div class="contact-item reveal reveal-delay-4">
           <div class="ci-icon">
             <svg viewBox="0 0 24 24" fill="none" stroke="var(--violet)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="20" height="20"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
@@ -3106,8 +1028,7 @@
         font-weight:600; letter-spacing:0.1em; text-transform:uppercase;
         transition:all 0.3s ease; align-self:flex-start;
         box-shadow:0 8px 24px rgba(37,211,102,0.35);
-      " onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 12px 32px rgba(37,211,102,0.5)'"
-         onmouseout="this.style.transform='';this.style.boxShadow='0 8px 24px rgba(37,211,102,0.35)'">
+      ">
         <svg viewBox="0 0 24 24" fill="#fff" width="18" height="18"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg>
         Commander sur WhatsApp
       </a>
@@ -3125,399 +1046,13 @@
       <a href="#" class="footer-icon" aria-label="Instagram">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="18" height="18"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
       </a>
-      <a href="https://wa.me/2250151151432" target="_blank" rel="noopener" class="footer-icon" aria-label="WhatsApp — 0151 151 432">
+      <a href="https://wa.me/2250151151432" target="_blank" rel="noopener" class="footer-icon" aria-label="WhatsApp">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="18" height="18"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
       </a>
     </div>
   </footer>
 
-  <script>
-    // ── Portrait image fallback ──────────────────────────
-    const portraitImg = document.getElementById('portraitImg');
-    const portraitFallback = document.getElementById('portraitFallback');
-    if (portraitImg) {
-      portraitImg.addEventListener('error', () => {
-        portraitImg.style.display = 'none';
-        if (portraitFallback) portraitFallback.style.display = '';
-      });
-      // Also check if already errored (cached fail)
-      if (portraitImg.complete && !portraitImg.naturalWidth) {
-        portraitImg.dispatchEvent(new Event('error'));
-      }
-    }
-
-    // ── Navbar scroll ────────────────────────────────────
-    const navbar = document.getElementById('navbar');
-    window.addEventListener('scroll', () => {
-      navbar.classList.toggle('scrolled', window.scrollY > 60);
-    });
-
-    // ── Scroll to top button ─────────────────────────────
-    const scrollTopBtn = document.getElementById('scroll-top');
-    window.addEventListener('scroll', () => {
-      scrollTopBtn.classList.toggle('visible', window.scrollY > 400);
-    });
-    scrollTopBtn.addEventListener('click', () => {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
-
-    // ── Scroll reveal ─────────────────────────────────────
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(e => {
-        if (e.isIntersecting) {
-          e.target.classList.add('visible');
-          observer.unobserve(e.target);
-        }
-      });
-    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
-    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-
-    // ── Hamburger menu ────────────────────────────────────
-    const hamburger = document.getElementById('hamburger');
-    const mobileOverlay = document.getElementById('mobileOverlay');
-    const mobileDrawer = document.getElementById('mobileDrawer');
-
-    function openMenu() {
-      hamburger.classList.add('open');
-      mobileOverlay.classList.add('open');
-      mobileDrawer.classList.add('open');
-      document.body.style.overflow = 'hidden';
-    }
-    function closeMenu() {
-      hamburger.classList.remove('open');
-      mobileOverlay.classList.remove('open');
-      mobileDrawer.classList.remove('open');
-      document.body.style.overflow = '';
-    }
-
-    hamburger.addEventListener('click', () => {
-      hamburger.classList.contains('open') ? closeMenu() : openMenu();
-    });
-    mobileOverlay.addEventListener('click', closeMenu);
-
-    // Close drawer when a link is clicked
-    mobileDrawer.querySelectorAll('a').forEach(a => {
-      a.addEventListener('click', () => {
-        closeMenu();
-        const target = document.querySelector(a.getAttribute('href'));
-        if (target) {
-          setTimeout(() => target.scrollIntoView({ behavior: 'smooth', block: 'start' }), 350);
-        }
-      });
-    });
-
-    // ── Cursor glow ───────────────────────────────────────
-    const glow = document.getElementById('cursorGlow');
-    window.addEventListener('mousemove', e => {
-      glow.style.left = e.clientX + 'px';
-      glow.style.top  = e.clientY + 'px';
-    });
-
-    // ── Smooth nav links ──────────────────────────────────
-    document.querySelectorAll('a[href^="#"]').forEach(a => {
-      a.addEventListener('click', e => {
-        const target = document.querySelector(a.getAttribute('href'));
-        if (target) {
-          e.preventDefault();
-          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
-      });
-    });
-
-    // ── Pétales de fleurs — Canvas animation ─────────────
-    (function() {
-      const canvas = document.getElementById('petals-canvas');
-      const ctx = canvas.getContext('2d');
-
-      function resize() {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-      }
-      resize();
-      window.addEventListener('resize', resize);
-
-      // Palette violette
-      const colors = [
-        'rgba(123, 79, 173, 0.55)',
-        'rgba(201, 174, 237, 0.65)',
-        'rgba(92, 45, 138, 0.45)',
-        'rgba(237, 225, 250, 0.7)',
-        'rgba(180, 130, 220, 0.6)',
-        'rgba(61, 26, 92, 0.35)',
-        'rgba(215, 190, 245, 0.7)',
-      ];
-
-      // Forme d'un pétale (ellipse inclinée)
-      function drawPetal(ctx, x, y, rx, ry, angle, color) {
-        ctx.save();
-        ctx.translate(x, y);
-        ctx.rotate(angle);
-        ctx.beginPath();
-        // Pétale = deux courbes de Bézier
-        ctx.moveTo(0, -ry);
-        ctx.bezierCurveTo(rx * 0.8, -ry * 0.5,  rx * 0.8,  ry * 0.5, 0,  ry);
-        ctx.bezierCurveTo(-rx * 0.8,  ry * 0.5, -rx * 0.8, -ry * 0.5, 0, -ry);
-        ctx.closePath();
-        ctx.fillStyle = color;
-        ctx.fill();
-        // Nervure
-        ctx.beginPath();
-        ctx.moveTo(0, -ry);
-        ctx.lineTo(0, ry);
-        ctx.strokeStyle = color.replace(/[\d.]+\)$/, '0.3)');
-        ctx.lineWidth = 0.5;
-        ctx.stroke();
-        ctx.restore();
-      }
-
-      class Petal {
-        constructor() { this.reset(true); }
-        reset(init) {
-          this.x = Math.random() * canvas.width;
-          this.y = init ? Math.random() * canvas.height : -30;
-          this.rx = 6 + Math.random() * 9;
-          this.ry = 10 + Math.random() * 14;
-          this.angle = Math.random() * Math.PI * 2;
-          this.spin = (Math.random() - 0.5) * 0.04;
-          this.vy = 0.6 + Math.random() * 1.2;
-          this.vx = (Math.random() - 0.5) * 0.8;
-          this.color = colors[Math.floor(Math.random() * colors.length)];
-          this.alpha = 0;
-          this.fadeIn = true;
-          this.oscillate = (Math.random() - 0.5) * 0.3;
-          this.t = Math.random() * 100;
-        }
-        update() {
-          this.t += 0.02;
-          this.x += this.vx + Math.sin(this.t) * this.oscillate;
-          this.y += this.vy;
-          this.angle += this.spin;
-          if (this.fadeIn && this.alpha < 0.9) this.alpha = Math.min(0.9, this.alpha + 0.02);
-          if (this.y > canvas.height + 40) this.reset(false);
-        }
-        draw() {
-          ctx.globalAlpha = this.alpha;
-          drawPetal(ctx, this.x, this.y, this.rx, this.ry, this.angle, this.color);
-          ctx.globalAlpha = 1;
-        }
-      }
-
-      const petals = Array.from({ length: 28 }, () => new Petal());
-
-      function animate() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        petals.forEach(p => { p.update(); p.draw(); });
-        requestAnimationFrame(animate);
-      }
-      animate();
-    })();
-    // ── Filtre boutique ───────────────────────────────────
-    function filterProduits(btn, cat) {
-      document.querySelectorAll('.bfilter').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      document.querySelectorAll('.produit-card').forEach(card => {
-        const match = cat === 'tous' || card.dataset.cat === cat;
-        card.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
-        if (match) {
-          card.style.opacity = '1';
-          card.style.transform = '';
-          card.style.display = 'flex';
-        } else {
-          card.style.opacity = '0';
-          card.style.transform = 'scale(0.96)';
-          setTimeout(() => {
-            if (card.dataset.cat !== cat && cat !== 'tous') card.style.display = 'none';
-          }, 300);
-        }
-      });
-    }
-
-    // ── Modale produit ────────────────────────────────────
-    const modalOverlay = document.getElementById('modalOverlay');
-    const modalBox     = document.getElementById('modalBox');
-
-    // Données produits
-    const produitsData = {
-      // Soins visage
-      'creme-eclat-naturel': {
-        cat: 'Soin visage', name: 'Crème Éclat Naturel',
-        desc: 'Hydratation intense enrichie en beurre de karité et huile d\'argan. Peau lumineuse dès la première application.',
-        img: 'assets/images/cosmetiques/creme-visage.jpg',
-        prix: '4 500 FCFA', prixOld: '5 500 FCFA', stars: 5, avis: 24,
-        details: [['Contenance','50 ml'],['Type de peau','Tous types'],['Usage','Matin & soir']]
-      },
-      'serum-eclat-unifiant': {
-        cat: 'Soin visage', name: 'Sérum Éclat Unifiant',
-        desc: 'Formule concentrée à la vitamine C pour unifier le teint et réduire les taches. Texture légère, absorption rapide.',
-        img: 'assets/images/cosmetiques/serum-eclat.jpg',
-        prix: '6 200 FCFA', stars: 4, avis: 18,
-        details: [['Contenance','30 ml'],['Type de peau','Mixte / Grasse'],['Usage','Matin']]
-      },
-      'masque-nuit-reparateur': {
-        cat: 'Soin visage', name: 'Masque Nuit Réparateur',
-        desc: 'Soin intensif nocturne à l\'aloe vera et à l\'huile de rose musquée. Peau régénérée au réveil.',
-        img: 'assets/images/cosmetiques/masque-nuit.jpg',
-        prix: '5 800 FCFA', stars: 5, avis: 31,
-        details: [['Contenance','75 ml'],['Type de peau','Sèche / Sensible'],['Usage','Nuit']]
-      },
-      // Soins corps
-      'huile-soyeuse-corps': {
-        cat: 'Soin corps', name: 'Huile Soyeuse Corps',
-        desc: 'Mélange précieux d\'huiles végétales — coco, jojoba et amande douce — pour une peau veloutée et nourrie.',
-        img: 'assets/images/cosmetiques/huile-corps.jpg',
-        prix: '3 800 FCFA', stars: 5, avis: 42,
-        details: [['Contenance','100 ml'],['Texture','Huile sèche'],['Usage','Après douche']]
-      },
-      'lotion-karite-fondante': {
-        cat: 'Soin corps', name: 'Lotion Karité Fondante',
-        desc: 'Texture crémeuse ultra-nourrissante au karité pur d\'Afrique de l\'Ouest. Hydratation longue durée pour tous types de peau.',
-        img: 'assets/images/cosmetiques/lotion-corps.jpg',
-        prix: '3 200 FCFA', prixOld: '4 000 FCFA', stars: 4, avis: 19,
-        details: [['Contenance','200 ml'],['Type de peau','Sèche / Très sèche'],['Usage','Matin & soir']]
-      },
-      'gommage-sucre-coco': {
-        cat: 'Soin corps', name: 'Gommage Sucre & Coco',
-        desc: 'Exfoliant doux naturel à la noix de coco et au sucre de canne. Élimine les cellules mortes et révèle l\'éclat de la peau.',
-        img: 'assets/images/cosmetiques/gommage-corps.jpg',
-        prix: '4 100 FCFA', stars: 5, avis: 11,
-        details: [['Contenance','150 g'],['Fréquence','1 à 2× / semaine'],['Usage','Sous la douche']]
-      },
-      // Parfums
-      'rose-oud-mystique': {
-        cat: 'Parfum · Eau de parfum', name: 'Rose & Oud Mystique',
-        desc: 'Un sillage envoûtant qui dure toute la journée. Composition orientale de caractère avec une féminité affirmée.',
-        img: 'assets/images/cosmetiques/parfum-rose-oud.jpg',
-        prix: '12 500 FCFA', prixOld: '15 000 FCFA', stars: 5, avis: 38,
-        details: [['Notes de tête','Rose de Damas'],['Notes de cœur','Oud précieux'],['Notes de fond','Musc blanc'],['Contenance','50 ml']]
-      },
-      'vanille-ambre-dore': {
-        cat: 'Parfum · Eau de parfum', name: 'Vanille & Ambre Doré',
-        desc: 'Douceur et sensualité à l\'état pur. Un parfum chaud et enveloppant qui laisse une trace mémorable.',
-        img: 'assets/images/cosmetiques/parfum-vanille-ambre.jpg',
-        prix: '11 000 FCFA', stars: 5, avis: 21,
-        details: [['Notes de tête','Fleur d\'oranger'],['Notes de cœur','Vanille bourbon'],['Notes de fond','Ambre chaud'],['Contenance','50 ml']]
-      },
-      'jasmin-bois-precieux': {
-        cat: 'Parfum · Eau de toilette', name: 'Jasmin & Bois Précieux',
-        desc: 'Fraîcheur florale et profondeur boisée pour un parfum polyvalent, du jour au soir.',
-        img: 'assets/images/cosmetiques/parfum-jasmin-bois.jpg',
-        prix: '8 500 FCFA', prixOld: '10 000 FCFA', stars: 4, avis: 14,
-        details: [['Notes de tête','Jasmin frais'],['Notes de cœur','Bois de santal'],['Notes de fond','Cèdre & Patchouli'],['Contenance','50 ml']]
-      },
-      // Chouchou
-      'chouchou-satin-rose': {
-        cat: 'Chouchou · Accessoire cheveux', name: 'Chouchou Satin Rose',
-        desc: 'Élastique en satin doux pour cheveux. Réduit les frisottis et les casses. Idéal pour tous types de cheveux, surtout crépus et bouclés.',
-        img: 'assets/images/cosmetiques/chouchou-satin-rose.jpg',
-        prix: '500 FCFA', stars: 5, avis: 52,
-        details: [['Matière','Satin doux'],['Couleur','Rose poudré'],['Idéal pour','Cheveux crépus & bouclés']]
-      },
-      'chouchou-velours-mauve': {
-        cat: 'Chouchou · Accessoire cheveux', name: 'Chouchou Velours Mauve',
-        desc: 'Chouchou en velours épais ultra tendance. Tenue parfaite toute la journée, sans marque ni douleur. Style et confort réunis.',
-        img: 'assets/images/cosmetiques/chouchou-velours-mauve.jpg',
-        prix: '750 FCFA', stars: 5, avis: 67,
-        details: [['Matière','Velours épais'],['Couleur','Mauve'],['Style','Casual & élégant']]
-      },
-      'chouchou-perles-dorees': {
-        cat: 'Chouchou · Accessoire cheveux', name: 'Chouchou Perles Dorées',
-        desc: 'Chouchou tissé orné de petites perles dorées pour un look élégant et raffiné. Parfait pour une tenue de soirée ou du quotidien chic.',
-        img: 'assets/images/cosmetiques/chouchou-perles-dorees.jpg',
-        prix: '1 000 FCFA', stars: 5, avis: 29,
-        details: [['Matière','Tissu & perles'],['Couleur','Doré / Crème'],['Occasion','Soirée & quotidien']]
-      },
-    };
-
-    function slugify(str) {
-      return str.toLowerCase()
-        .replace(/[àâä]/g,'a').replace(/[éèêë]/g,'e')
-        .replace(/[îï]/g,'i').replace(/[ôö]/g,'o')
-        .replace(/[ùûü]/g,'u').replace(/ç/g,'c')
-        .replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
-    }
-
-    function openModal(slug) {
-      const p = produitsData[slug];
-      if (!p) return;
-
-      // Image
-      const imgEl = document.getElementById('modalImgEl');
-      const placeholder = document.getElementById('modalPlaceholder');
-      imgEl.src = p.img;
-      imgEl.alt = p.name;
-      imgEl.style.display = '';
-      placeholder.style.display = 'none';
-
-      // Couleur fond image selon catégorie
-      const modalImgDiv = document.getElementById('modalImg');
-      if      (p.cat.includes('visage'))  modalImgDiv.style.background = 'linear-gradient(145deg,#F0E8FA,#DEC9F5)';
-      else if (p.cat.includes('corps'))   modalImgDiv.style.background = 'linear-gradient(145deg,#FFF0E8,#F5D9C4)';
-      else if (p.cat.includes('Eau de parfum')) modalImgDiv.style.background = 'linear-gradient(145deg,#1A0A2E,#3D1A5C)';
-      else if (p.cat.includes('Eau de toilette')) modalImgDiv.style.background = 'linear-gradient(145deg,#0A1A2E,#1A3A5C)';
-      else if (p.cat.includes('Chouchou') && p.name.includes('Rose')) modalImgDiv.style.background = 'linear-gradient(145deg,#FAE8F5,#F0C8E8)';
-      else if (p.cat.includes('Chouchou') && p.name.includes('Mauve')) modalImgDiv.style.background = 'linear-gradient(145deg,#F5E8FA,#E0C0F0)';
-      else if (p.cat.includes('Chouchou')) modalImgDiv.style.background = 'linear-gradient(145deg,#FAF0E8,#F5D8C0)';
-      else modalImgDiv.style.background = 'var(--violet-blush)';
-
-      // Texte
-      document.getElementById('modalCat').textContent = p.cat;
-      document.getElementById('modalName').textContent = p.name;
-      document.getElementById('modalDesc').textContent = p.desc;
-      document.getElementById('modalPrix').textContent = p.prix;
-      document.getElementById('modalPrixOld').textContent = p.prixOld || '';
-
-      // Étoiles
-      const starsEl = document.getElementById('modalStars');
-      starsEl.innerHTML = '';
-      for (let i = 1; i <= 5; i++) {
-        const s = document.createElement('span');
-        s.className = 'star';
-        s.textContent = '★';
-        s.style.color = i <= p.stars ? 'var(--gold)' : 'var(--muted)';
-        starsEl.appendChild(s);
-      }
-      const avisSpan = document.createElement('span');
-      avisSpan.className = 'star-count';
-      avisSpan.textContent = `(${p.avis} avis)`;
-      starsEl.appendChild(avisSpan);
-
-      // Détails
-      const detailsEl = document.getElementById('modalDetails');
-      detailsEl.innerHTML = p.details.map(([k,v]) =>
-        `<div class="modal-detail-row"><span>${k}</span><span>${v}</span></div>`
-      ).join('');
-
-      // Ouvrir + lien WhatsApp pré-rempli
-      const waBtn = document.getElementById('modalWaBtn');
-      const msg = encodeURIComponent(`Bonjour Tatiana 🌸, je souhaite commander : *${p.name}*\nPrix : ${p.prix}\nMerci !`);
-      waBtn.href = `https://wa.me/2250151151432?text=${msg}`;
-
-      modalOverlay.classList.add('open');
-      document.body.style.overflow = 'hidden';
-    }
-
-    function closeModal(e, force) {
-      if (force || (e && e.target === modalOverlay)) {
-        modalOverlay.classList.remove('open');
-        document.body.style.overflow = '';
-      }
-    }
-
-    // Fermer avec Escape
-    document.addEventListener('keydown', e => {
-      if (e.key === 'Escape') closeModal(null, true);
-    });
-
-    // Attacher openModal à chaque bouton overlay
-    document.querySelectorAll('.produit-card').forEach(card => {
-      const btn = card.querySelector('.overlay-btn');
-      const nameEl = card.querySelector('.produit-name');
-      if (btn && nameEl) {
-        const slug = slugify(nameEl.textContent.trim());
-        btn.addEventListener('click', () => openModal(slug));
-      }
-    });
-
-  </script>
+  <!-- JavaScript externe -->
+  <script src="main.js"></script>
 </body>
 </html>
