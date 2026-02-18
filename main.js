@@ -2,13 +2,17 @@
 const portraitImg = document.getElementById('portraitImg');
 const portraitFallback = document.getElementById('portraitFallback');
 if (portraitImg) {
-  portraitImg.addEventListener('error', () => {
+  const showFallback = () => {
     portraitImg.style.display = 'none';
     if (portraitFallback) portraitFallback.style.display = '';
-  });
-  if (portraitImg.complete && !portraitImg.naturalWidth) {
-    portraitImg.dispatchEvent(new Event('error'));
-  }
+    // Sur mobile sans image : mettre un fond violet sur le hero
+    const heroPortrait = document.getElementById('heroPortrait');
+    if (heroPortrait && window.innerWidth <= 768) {
+      heroPortrait.style.background = 'linear-gradient(160deg, #3D1A5C 0%, #1A0A2E 100%)';
+    }
+  };
+  portraitImg.addEventListener('error', showFallback);
+  if (portraitImg.complete && !portraitImg.naturalWidth) showFallback();
 }
 
 // ── Navbar scroll ────────────────────────────────────
@@ -88,9 +92,13 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
   });
 });
 
-// ── Pétales de fleurs — Canvas animation ─────────────
+// ── Pétales de fleurs — Canvas animation (desktop uniquement) ─────────────
 (function() {
+  // Ne pas démarrer l'animation sur mobile (économise batterie + évite blocage touch)
+  if (window.innerWidth <= 768) return;
+
   const canvas = document.getElementById('petals-canvas');
+  if (!canvas) return;
   const ctx = canvas.getContext('2d');
 
   function resize() {
