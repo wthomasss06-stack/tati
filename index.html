@@ -1,0 +1,1696 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tatiana — Art de Vivre</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Jost:wght@300;400;500&family=Pinyon+Script&display=swap" rel="stylesheet">
+
+  <style>
+    /* ═══════════════════════════════════════════════
+       VARIABLES
+    ═══════════════════════════════════════════════ */
+    :root {
+      --violet:       #3D1A5C;
+      --violet-mid:   #5C2D8A;
+      --violet-soft:  #7B4FAD;
+      --violet-pale:  #C9AEED;
+      --violet-blush: #EDE1FA;
+      --violet-glass: rgba(61, 26, 92, 0.08);
+      --gold:         #C9A84C;
+      --gold-pale:    #F0E3C0;
+      --cream:        #FAF7F2;
+      --ink:          #1A0A2E;
+      --muted:        #8A7A9B;
+      --border:       rgba(61, 26, 92, 0.15);
+
+      --font-display: 'Cormorant Garamond', Georgia, serif;
+      --font-script:  'Pinyon Script', cursive;
+      --font-body:    'Jost', sans-serif;
+    }
+
+    /* ═══════════════════════════════════════════════
+       RESET & BASE
+    ═══════════════════════════════════════════════ */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; overflow-x: hidden; }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--cream);
+      color: var(--ink);
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    ::selection { background: var(--violet-pale); color: var(--ink); }
+
+    /* ═══════════════════════════════════════════════
+       GRAIN TEXTURE OVERLAY
+    ═══════════════════════════════════════════════ */
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.035'/%3E%3C/svg%3E");
+      pointer-events: none; z-index: 9999; opacity: 0.6;
+    }
+
+    /* ═══════════════════════════════════════════════
+       SCROLLBAR
+    ═══════════════════════════════════════════════ */
+    ::-webkit-scrollbar { width: 3px; }
+    ::-webkit-scrollbar-track { background: var(--cream); }
+    ::-webkit-scrollbar-thumb { background: var(--violet-soft); border-radius: 2px; }
+
+    /* ═══════════════════════════════════════════════
+       NAV
+    ═══════════════════════════════════════════════ */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 22px 6%;
+      transition: all 0.4s ease;
+    }
+
+    nav.scrolled {
+      background: rgba(250, 247, 242, 0.94);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+      padding: 14px 6%;
+    }
+
+    .nav-logo {
+      font-family: var(--font-script);
+      font-size: 2rem; color: var(--violet);
+      text-decoration: none;
+      letter-spacing: 0.02em;
+    }
+
+    .nav-links {
+      display: flex; gap: 36px; list-style: none;
+    }
+
+    .nav-links a {
+      font-family: var(--font-body);
+      font-size: 0.72rem; font-weight: 500;
+      letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--violet); text-decoration: none;
+      position: relative; transition: color 0.2s;
+    }
+
+    .nav-links a::after {
+      content: ''; position: absolute; bottom: -3px; left: 0;
+      width: 0; height: 1px; background: var(--gold);
+      transition: width 0.3s ease;
+    }
+
+    .nav-links a:hover::after { width: 100%; }
+
+    /* ═══════════════════════════════════════════════
+       HERO
+    ═══════════════════════════════════════════════ */
+    .hero {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-left {
+      background: var(--violet);
+      display: flex; flex-direction: column; justify-content: center;
+      padding: 120px 8% 80px 10%;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Geometric pattern on hero left */
+    .hero-left::before {
+      content: '';
+      position: absolute; top: -80px; right: -80px;
+      width: 360px; height: 360px;
+      border: 1px solid rgba(201, 168, 237, 0.12);
+      border-radius: 50%;
+    }
+
+    .hero-left::after {
+      content: '';
+      position: absolute; bottom: 60px; left: -60px;
+      width: 240px; height: 240px;
+      border: 1px solid rgba(201, 168, 237, 0.08);
+      border-radius: 50%;
+    }
+
+    .hero-eyebrow {
+      font-family: var(--font-body);
+      font-size: 0.68rem; font-weight: 500;
+      letter-spacing: 0.28em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 20px;
+      display: flex; align-items: center; gap: 12px;
+    }
+
+    .hero-eyebrow::before {
+      content: '';
+      width: 40px; height: 1px; background: var(--gold);
+    }
+
+    .hero-name {
+      font-family: var(--font-script);
+      font-size: clamp(3.5rem, 7vw, 6rem);
+      color: #fff; line-height: 1;
+      margin-bottom: 10px;
+    }
+
+    .hero-title {
+      font-family: var(--font-display);
+      font-size: clamp(1rem, 2vw, 1.5rem);
+      font-weight: 300; font-style: italic;
+      color: var(--violet-pale); margin-bottom: 40px;
+      letter-spacing: 0.04em;
+    }
+
+    .hero-desc {
+      font-size: 0.88rem; font-weight: 300;
+      color: rgba(255,255,255,0.65);
+      max-width: 380px; line-height: 1.9;
+      margin-bottom: 50px;
+    }
+
+    .hero-pillars {
+      display: flex; gap: 20px; flex-wrap: wrap;
+    }
+
+    .pillar-chip {
+      display: flex; align-items: center; gap: 8px;
+      padding: 8px 16px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(201, 168, 237, 0.2);
+      border-radius: 100px;
+      font-size: 0.72rem; font-weight: 400;
+      color: var(--violet-pale); letter-spacing: 0.08em;
+      transition: all 0.25s ease;
+    }
+
+    .pillar-chip:hover {
+      background: rgba(201, 168, 237, 0.12);
+      border-color: rgba(201, 168, 237, 0.4);
+      transform: translateY(-2px);
+    }
+
+    .pillar-chip .icon { width: 16px; height: 16px; flex-shrink: 0; }
+
+    /* Portrait — image ou fallback initiale */
+    .hero-portrait img {
+      width: 100%; height: 100%;
+      object-fit: cover; object-position: center top;
+      border-radius: inherit;
+      position: relative; z-index: 2;
+    }
+    .hero-portrait img.hidden { display: none; }
+
+    /* ═══════════════════════════════════════════════
+       PÉTALES DE FLEURS — CANVAS OVERLAY
+    ═══════════════════════════════════════════════ */
+    #petals-canvas {
+      position: fixed; inset: 0;
+      pointer-events: none; z-index: 10;
+      opacity: 0.75;
+    }
+
+    /* Pétales SVG animés dans le hero */
+    .petal-svg {
+      position: absolute;
+      pointer-events: none;
+      z-index: 4;
+      animation: petalFall linear infinite;
+      will-change: transform, opacity;
+    }
+
+    @keyframes petalFall {
+      0%   { transform: translateY(-60px) translateX(0) rotate(0deg); opacity: 0; }
+      5%   { opacity: 1; }
+      90%  { opacity: 0.7; }
+      100% { transform: translateY(110vh) translateX(80px) rotate(720deg); opacity: 0; }
+    }
+    @keyframes petalDrift {
+      0%   { transform: translateY(-60px) translateX(20px) rotate(0deg) scale(0.8); opacity: 0; }
+      5%   { opacity: 0.9; }
+      50%  { transform: translateY(50vh) translateX(-30px) rotate(360deg) scale(1); }
+      90%  { opacity: 0.5; }
+      100% { transform: translateY(110vh) translateX(-60px) rotate(720deg) scale(0.6); opacity: 0; }
+    }
+
+    /* Particules pétales flottantes (section hero-right) */
+    .hero-right .petal-layer {
+      position: absolute; inset: 0; overflow: hidden; z-index: 1; pointer-events: none;
+    }
+
+    /* Hero right — image + floating cards */
+    .hero-right {
+      background: var(--violet-blush);
+      display: flex; align-items: center; justify-content: center;
+      position: relative; overflow: hidden;
+    }
+
+    .hero-right::before {
+      content: '';
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse at 30% 70%, rgba(92, 45, 138, 0.15) 0%, transparent 60%),
+        radial-gradient(ellipse at 80% 20%, rgba(201, 168, 76, 0.08) 0%, transparent 50%);
+    }
+
+    .hero-portrait {
+      width: 280px; height: 380px;
+      background: linear-gradient(145deg, var(--violet-mid), var(--violet));
+      border-radius: 40% 60% 60% 40% / 50% 40% 60% 50%;
+      position: relative; z-index: 2;
+      display: flex; align-items: center; justify-content: center;
+      overflow: hidden;
+      animation: morphBlob 8s ease-in-out infinite;
+      box-shadow:
+        0 20px 60px rgba(61, 26, 92, 0.25),
+        inset 0 1px 0 rgba(255,255,255,0.1);
+    }
+
+    @keyframes morphBlob {
+      0%,100% { border-radius: 40% 60% 60% 40% / 50% 40% 60% 50%; }
+      33%      { border-radius: 60% 40% 50% 50% / 40% 60% 40% 60%; }
+      66%      { border-radius: 50% 50% 40% 60% / 60% 40% 55% 45%; }
+    }
+
+    .portrait-initial {
+      font-family: var(--font-script);
+      font-size: 6rem; color: rgba(255,255,255,0.25);
+      user-select: none;
+    }
+
+    /* Floating decoration cards */
+    .float-card {
+      position: absolute; z-index: 3;
+      background: rgba(250, 247, 242, 0.92);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(61, 26, 92, 0.1);
+      border-radius: 16px; padding: 14px 18px;
+      display: flex; align-items: center; gap: 12px;
+      box-shadow: 0 8px 32px rgba(61, 26, 92, 0.12);
+      animation: floatCard 5s ease-in-out infinite;
+    }
+
+    .float-card:nth-child(2) { animation-delay: -1.5s; }
+    .float-card:nth-child(3) { animation-delay: -3s; }
+
+    @keyframes floatCard {
+      0%,100% { transform: translateY(0) rotate(0deg); }
+      50%      { transform: translateY(-8px) rotate(0.5deg); }
+    }
+
+    .fc-cooking { top: 15%; left: -30px; }
+    .fc-knitting { bottom: 22%; right: -20px; }
+    .fc-faith { top: 55%; left: -40px; }
+
+    .fc-icon { font-size: 1.6rem; }
+
+    .fc-text { display: flex; flex-direction: column; }
+    .fc-label { font-size: 0.6rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+    .fc-value { font-family: var(--font-display); font-size: 0.88rem; font-weight: 600; color: var(--violet); }
+
+    /* ═══════════════════════════════════════════════
+       SECTION SHARED
+    ═══════════════════════════════════════════════ */
+    section { padding: 100px 8%; position: relative; }
+
+    .section-eyebrow {
+      font-size: 0.66rem; font-weight: 500; letter-spacing: 0.28em;
+      text-transform: uppercase; color: var(--gold);
+      display: flex; align-items: center; gap: 14px;
+      margin-bottom: 18px;
+    }
+
+    .section-eyebrow::before {
+      content: ''; width: 32px; height: 1px; background: var(--gold);
+    }
+
+    .section-title {
+      font-family: var(--font-display);
+      font-size: clamp(2.4rem, 5vw, 4rem);
+      font-weight: 300; line-height: 1.1;
+      color: var(--violet); margin-bottom: 20px;
+      letter-spacing: -0.02em;
+    }
+
+    .section-title em {
+      font-style: italic; color: var(--violet-soft);
+    }
+
+    .section-divider {
+      width: 60px; height: 1px;
+      background: linear-gradient(90deg, var(--gold), transparent);
+      margin-bottom: 48px;
+    }
+
+    /* ═══════════════════════════════════════════════
+       ABOUT
+    ═══════════════════════════════════════════════ */
+    #about {
+      background: #fff;
+      display: grid;
+      grid-template-columns: 1fr 1.2fr;
+      gap: 80px; align-items: center;
+    }
+
+    .about-visual {
+      position: relative;
+    }
+
+    .about-frame {
+      width: 100%; aspect-ratio: 3/4;
+      background: linear-gradient(145deg, var(--violet-blush), var(--violet-pale));
+      border-radius: 2px 60px 2px 60px;
+      display: flex; align-items: center; justify-content: center;
+      position: relative; overflow: hidden;
+    }
+
+    .about-frame::before {
+      content: '✦';
+      font-size: 8rem; color: rgba(61,26,92,0.06);
+      position: absolute; top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      animation: spin 20s linear infinite;
+    }
+
+    @keyframes spin { from { transform: translate(-50%,-50%) rotate(0deg); } to { transform: translate(-50%,-50%) rotate(360deg); } }
+
+    .about-frame-initial {
+      font-family: var(--font-script);
+      font-size: 5rem; color: var(--violet-mid);
+      opacity: 0.4; position: relative; z-index: 1;
+    }
+
+    .about-ornament {
+      position: absolute; bottom: -20px; right: -20px;
+      width: 120px; height: 120px;
+      border: 1px solid var(--border);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      background: var(--cream);
+      font-size: 0.6rem; font-weight: 500; letter-spacing: 0.2em;
+      text-transform: uppercase; color: var(--muted);
+      text-align: center; padding: 16px;
+    }
+
+    .about-text p {
+      font-size: 0.92rem; color: #4A3A5A;
+      line-height: 1.95; margin-bottom: 22px;
+      font-weight: 300;
+    }
+
+    .about-text p strong { color: var(--violet); font-weight: 500; }
+
+    .about-quote {
+      margin: 36px 0;
+      padding: 24px 28px;
+      background: var(--violet-glass);
+      border-left: 2px solid var(--gold);
+      border-radius: 0 8px 8px 0;
+    }
+
+    .about-quote blockquote {
+      font-family: var(--font-display);
+      font-size: 1.2rem; font-style: italic;
+      color: var(--violet); line-height: 1.6;
+    }
+
+    /* ═══════════════════════════════════════════════
+       PASSIONS / CARDS
+    ═══════════════════════════════════════════════ */
+    #passions {
+      background: var(--violet);
+      padding: 100px 8%;
+    }
+
+    #passions .section-eyebrow { color: var(--gold); }
+    #passions .section-eyebrow::before { background: var(--gold); }
+    #passions .section-title { color: #fff; }
+    #passions .section-title em { color: var(--violet-pale); }
+    #passions .section-divider { background: linear-gradient(90deg, var(--gold), transparent); }
+
+    .passions-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px; margin-top: 0;
+    }
+
+    .passion-card {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(201,174,237,0.15);
+      border-radius: 24px; padding: 44px 32px;
+      position: relative; overflow: hidden;
+      transition: all 0.35s ease;
+      cursor: default;
+    }
+
+    .passion-card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+      background: linear-gradient(135deg, rgba(201,168,237,0.08) 0%, transparent 60%);
+      opacity: 0; transition: opacity 0.35s ease;
+      border-radius: inherit;
+    }
+
+    .passion-card:hover { transform: translateY(-8px); border-color: rgba(201,168,76,0.3); }
+    .passion-card:hover::before { opacity: 1; }
+
+    .passion-icon-wrap {
+      width: 72px; height: 72px;
+      background: rgba(201, 168, 76, 0.1);
+      border: 1px solid rgba(201, 168, 76, 0.2);
+      border-radius: 20px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2.2rem; margin-bottom: 28px;
+      transition: all 0.3s ease;
+    }
+
+    .passion-card:hover .passion-icon-wrap {
+      background: rgba(201, 168, 76, 0.2);
+      transform: scale(1.05) rotate(3deg);
+    }
+
+    .passion-num {
+      font-family: var(--font-display);
+      font-size: 0.7rem; font-weight: 300; letter-spacing: 0.2em;
+      color: rgba(201,168,76,0.5); margin-bottom: 10px;
+    }
+
+    .passion-name {
+      font-family: var(--font-display);
+      font-size: 1.7rem; font-weight: 400;
+      color: #fff; margin-bottom: 14px; line-height: 1.15;
+    }
+
+    .passion-desc {
+      font-size: 0.84rem; font-weight: 300;
+      color: rgba(255,255,255,0.55); line-height: 1.85;
+    }
+
+    .passion-tags {
+      display: flex; flex-wrap: wrap; gap: 7px; margin-top: 24px;
+    }
+
+    .ptag {
+      font-size: 0.64rem; font-weight: 500; letter-spacing: 0.1em;
+      text-transform: uppercase; padding: 4px 12px;
+      border: 1px solid rgba(201, 168, 237, 0.2);
+      border-radius: 100px; color: var(--violet-pale);
+    }
+
+    /* ═══════════════════════════════════════════════
+       RECETTES VEDETTES
+    ═══════════════════════════════════════════════ */
+    #cuisine {
+      background: var(--cream);
+      padding: 100px 8%;
+    }
+
+    .recipes-layout {
+      display: grid;
+      grid-template-columns: 1.4fr 1fr 1fr;
+      grid-template-rows: auto auto;
+      gap: 20px;
+    }
+
+    .recipe-card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 20px; overflow: hidden;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+
+    .recipe-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 20px 50px rgba(61, 26, 92, 0.1);
+      border-color: var(--violet-pale);
+    }
+
+    .recipe-card.featured {
+      grid-row: 1 / 3;
+      display: flex; flex-direction: column;
+    }
+
+    .recipe-img {
+      height: 200px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 3.5rem;
+      position: relative; overflow: hidden;
+    }
+
+    .recipe-card.featured .recipe-img { height: 280px; font-size: 5rem; }
+
+    .r-bg-1 { background: linear-gradient(135deg, #2D1B45, #5C2D8A); }
+    .r-bg-2 { background: linear-gradient(135deg, #1A3A2A, #2D6A4F); }
+    .r-bg-3 { background: linear-gradient(135deg, #4A1A1A, #8B3A2A); }
+    .r-bg-4 { background: linear-gradient(135deg, #1A2A4A, #2D4A8A); }
+
+    .recipe-img::after {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.3) 0%, transparent 50%);
+    }
+
+    .recipe-badge {
+      position: absolute; top: 12px; left: 12px; z-index: 2;
+      background: var(--gold); color: #1A0A2E;
+      font-size: 0.58rem; font-weight: 600; letter-spacing: 0.1em;
+      text-transform: uppercase; padding: 4px 10px; border-radius: 100px;
+    }
+
+    .recipe-body { padding: 22px 24px; flex: 1; display: flex; flex-direction: column; }
+
+    .recipe-cat {
+      font-size: 0.62rem; font-weight: 500; letter-spacing: 0.18em;
+      text-transform: uppercase; color: var(--muted); margin-bottom: 8px;
+    }
+
+    .recipe-name {
+      font-family: var(--font-display);
+      font-size: 1.3rem; font-weight: 400;
+      color: var(--violet); line-height: 1.2; margin-bottom: 10px;
+    }
+
+    .recipe-card.featured .recipe-name { font-size: 1.8rem; }
+
+    .recipe-desc {
+      font-size: 0.8rem; color: var(--muted); line-height: 1.7;
+      font-weight: 300; flex: 1;
+    }
+
+    .recipe-meta {
+      display: flex; gap: 16px; margin-top: 18px;
+      padding-top: 16px; border-top: 1px solid var(--border);
+    }
+
+    .rmeta {
+      display: flex; align-items: center; gap: 5px;
+      font-size: 0.68rem; color: var(--muted);
+    }
+
+    .rmeta .rm-icon { font-size: 0.85rem; }
+
+    /* ═══════════════════════════════════════════════
+       TRICOT / CRÉATIONS
+    ═══════════════════════════════════════════════ */
+    #tricot {
+      background: var(--violet-blush);
+      padding: 100px 8%;
+    }
+
+    .tricot-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px; margin-top: 0;
+    }
+
+    .tricot-item {
+      background: #fff;
+      border-radius: 16px; overflow: hidden;
+      border: 1px solid var(--border);
+      transition: all 0.3s ease;
+    }
+
+    .tricot-item:hover {
+      transform: translateY(-5px) rotate(0.5deg);
+      box-shadow: 0 16px 40px rgba(61, 26, 92, 0.12);
+    }
+
+    .tricot-thumb {
+      height: 160px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2.8rem;
+    }
+
+    .t-bg-1 { background: linear-gradient(135deg, #E8D5F5, #C9AEED); }
+    .t-bg-2 { background: linear-gradient(135deg, #D4E8D5, #A8C8A8); }
+    .t-bg-3 { background: linear-gradient(135deg, #F5E8D0, #E0C89A); }
+    .t-bg-4 { background: linear-gradient(135deg, #D5E0F5, #A8B8E0); }
+
+    .tricot-info { padding: 16px 18px; }
+
+    .tricot-name {
+      font-family: var(--font-display);
+      font-size: 1rem; font-weight: 500; color: var(--violet);
+      margin-bottom: 4px;
+    }
+
+    .tricot-detail {
+      font-size: 0.72rem; color: var(--muted); font-weight: 300;
+    }
+
+    .tricot-difficulty {
+      display: flex; gap: 3px; margin-top: 8px;
+    }
+
+    .dot-filled { color: var(--gold); font-size: 0.6rem; }
+    .dot-empty  { color: var(--violet-pale); font-size: 0.6rem; }
+
+    /* ═══════════════════════════════════════════════
+       FOI / SPIRITUALITÉ
+    ═══════════════════════════════════════════════ */
+    #foi {
+      background: linear-gradient(145deg, var(--violet) 0%, #1A0A2E 100%);
+      padding: 120px 8%;
+      text-align: center;
+      position: relative; overflow: hidden;
+    }
+
+    #foi::before {
+      content: '✦';
+      font-size: 30rem; color: rgba(255,255,255,0.015);
+      position: absolute; top: 50%; left: 50%;
+      transform: translate(-50%,-50%);
+      pointer-events: none;
+      animation: spin 60s linear infinite;
+    }
+
+    #foi .section-eyebrow { justify-content: center; color: var(--gold-pale); }
+    #foi .section-eyebrow::before { display: none; }
+    #foi .section-title { color: #fff; }
+    #foi .section-title em { color: var(--violet-pale); }
+    #foi .section-divider { margin: 0 auto 48px; background: linear-gradient(90deg, transparent, var(--gold), transparent); }
+
+    .foi-verse {
+      max-width: 700px; margin: 0 auto 60px;
+      font-family: var(--font-display);
+      font-size: clamp(1.3rem, 3vw, 2rem);
+      font-style: italic; font-weight: 300;
+      color: rgba(255,255,255,0.85); line-height: 1.7;
+      position: relative; z-index: 1;
+    }
+
+    .foi-verse::before, .foi-verse::after {
+      content: '"';
+      font-size: 4rem; color: var(--gold); opacity: 0.3;
+      font-style: normal; line-height: 0; vertical-align: -0.5em;
+    }
+
+    .foi-ref {
+      font-family: var(--font-body);
+      font-size: 0.72rem; letter-spacing: 0.2em;
+      text-transform: uppercase; color: var(--gold);
+      margin-top: 18px; display: block;
+    }
+
+    .foi-values {
+      display: flex; justify-content: center; gap: 50px;
+      flex-wrap: wrap; margin-top: 60px;
+      position: relative; z-index: 1;
+    }
+
+    .foi-val {
+      display: flex; flex-direction: column; align-items: center; gap: 10px;
+    }
+
+    .foi-val-icon {
+      width: 56px; height: 56px;
+      border: 1px solid rgba(201,168,76,0.3);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.4rem;
+      background: rgba(201,168,76,0.06);
+      transition: all 0.3s ease;
+    }
+
+    .foi-val:hover .foi-val-icon {
+      background: rgba(201,168,76,0.15);
+      transform: scale(1.1);
+    }
+
+    .foi-val-name {
+      font-family: var(--font-display);
+      font-size: 0.95rem; font-style: italic; color: var(--violet-pale);
+    }
+
+    /* ═══════════════════════════════════════════════
+       CONTACT
+    ═══════════════════════════════════════════════ */
+    #contact {
+      background: var(--cream);
+      padding: 100px 8%;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px; align-items: start;
+    }
+
+    .contact-left .section-title { margin-bottom: 14px; }
+
+    .contact-intro {
+      font-size: 0.9rem; font-weight: 300; color: var(--muted);
+      line-height: 1.9; max-width: 400px;
+      margin-bottom: 40px;
+    }
+
+    .contact-items { display: flex; flex-direction: column; gap: 16px; }
+
+    .contact-item {
+      display: flex; align-items: center; gap: 18px;
+      padding: 16px 20px;
+      background: #fff;
+      border: 1px solid var(--border); border-radius: 12px;
+      transition: all 0.25s ease;
+    }
+
+    .contact-item:hover {
+      border-color: var(--violet-pale);
+      transform: translateX(4px);
+      box-shadow: 0 4px 20px rgba(61,26,92,0.07);
+    }
+
+    .ci-icon {
+      width: 42px; height: 42px;
+      background: var(--violet-glass);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem; flex-shrink: 0;
+    }
+
+    .ci-info { display: flex; flex-direction: column; }
+    .ci-label { font-size: 0.6rem; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
+    .ci-val { font-size: 0.86rem; color: var(--violet); font-weight: 400; }
+
+    /* Contact form */
+    .contact-form { display: flex; flex-direction: column; gap: 16px; }
+
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+
+    .form-group { display: flex; flex-direction: column; gap: 6px; }
+
+    .form-group label {
+      font-size: 0.66rem; font-weight: 500; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--muted);
+    }
+
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+      padding: 12px 16px;
+      background: #fff; color: var(--ink);
+      border: 1px solid var(--border); border-radius: 8px;
+      font-family: var(--font-body); font-size: 0.86rem;
+      outline: none; transition: border-color 0.2s;
+      resize: none;
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus,
+    .form-group select:focus {
+      border-color: var(--violet-soft);
+      box-shadow: 0 0 0 3px rgba(123, 79, 173, 0.08);
+    }
+
+    .form-group textarea { min-height: 120px; }
+
+    .btn-send {
+      display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+      padding: 15px 36px;
+      background: var(--violet); color: #fff;
+      border: none; border-radius: 100px;
+      font-family: var(--font-body); font-size: 0.8rem;
+      font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase;
+      cursor: pointer; transition: all 0.3s ease;
+      align-self: flex-start;
+    }
+
+    .btn-send:hover {
+      background: var(--violet-mid);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 32px rgba(61,26,92,0.3);
+    }
+
+    /* ═══════════════════════════════════════════════
+       FOOTER
+    ═══════════════════════════════════════════════ */
+    footer {
+      background: var(--ink);
+      padding: 50px 8%;
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 20px;
+    }
+
+    .footer-logo {
+      font-family: var(--font-script);
+      font-size: 2.2rem; color: #fff;
+    }
+
+    .footer-copy {
+      font-size: 0.72rem; color: rgba(255,255,255,0.35);
+      letter-spacing: 0.08em;
+    }
+
+    .footer-icons {
+      display: flex; gap: 14px;
+    }
+
+    .footer-icon {
+      width: 38px; height: 38px;
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1rem; color: rgba(255,255,255,0.5);
+      text-decoration: none;
+      transition: all 0.25s ease;
+    }
+
+    .footer-icon:hover {
+      border-color: var(--gold);
+      color: var(--gold);
+      transform: translateY(-2px);
+    }
+
+    /* ═══════════════════════════════════════════════
+       ANIMATIONS
+    ═══════════════════════════════════════════════ */
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+    .reveal-delay-4 { transition-delay: 0.4s; }
+
+    /* ═══════════════════════════════════════════════
+       RESPONSIVE
+    ═══════════════════════════════════════════════ */
+    @media (max-width: 1024px) {
+      .hero { grid-template-columns: 1fr; min-height: auto; }
+      .hero-left { padding: 140px 8% 70px; }
+      .hero-right { display: none; }
+      #about { grid-template-columns: 1fr; gap: 48px; padding: 70px 8%; }
+      .about-visual { max-width: 300px; margin: 0 auto; }
+      .passions-grid { grid-template-columns: 1fr 1fr; }
+      .recipes-layout { grid-template-columns: 1fr 1fr; }
+      .recipe-card.featured { grid-row: auto; grid-column: 1 / 3; }
+      .tricot-grid { grid-template-columns: repeat(2, 1fr); }
+      #contact { grid-template-columns: 1fr; gap: 50px; }
+    }
+
+    @media (max-width: 768px) {
+      section { padding: 70px 6%; }
+      nav { padding: 18px 6%; }
+      .nav-links { gap: 20px; }
+      .passions-grid { grid-template-columns: 1fr; }
+      .recipes-layout { grid-template-columns: 1fr; }
+      .recipe-card.featured { grid-column: 1; }
+      .tricot-grid { grid-template-columns: repeat(2, 1fr); }
+      .foi-values { gap: 30px; }
+      #contact { padding: 70px 6%; }
+      footer { flex-direction: column; align-items: center; text-align: center; }
+    }
+
+    @media (max-width: 480px) {
+      .hero-left { padding: 120px 6% 60px; }
+      .hero-name { font-size: 3rem; }
+      .section-title { font-size: 2.2rem; }
+      .tricot-grid { grid-template-columns: 1fr; }
+      .form-row { grid-template-columns: 1fr; }
+      .nav-links { display: none; }
+    }
+
+    /* ═══════════════════════════════════════════════
+       CURSOR GLOW
+    ═══════════════════════════════════════════════ */
+    .cursor-glow {
+      position: fixed; pointer-events: none; z-index: 9998;
+      width: 360px; height: 360px;
+      background: radial-gradient(circle, rgba(123,79,173,0.07) 0%, transparent 70%);
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      transition: transform 0.08s ease;
+      mix-blend-mode: multiply;
+    }
+
+    /* ═══════════════════════════════════════════════
+       HERO ENTRANCE ANIMATION
+    ═══════════════════════════════════════════════ */
+    .hero-left > * {
+      animation: heroSlideIn 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+    .hero-left > *:nth-child(1) { animation-delay: 0.1s; }
+    .hero-left > *:nth-child(2) { animation-delay: 0.25s; }
+    .hero-left > *:nth-child(3) { animation-delay: 0.4s; }
+    .hero-left > *:nth-child(4) { animation-delay: 0.55s; }
+    .hero-left > *:nth-child(5) { animation-delay: 0.7s; }
+
+    @keyframes heroSlideIn {
+      from { opacity: 0; transform: translateX(-30px); }
+      to   { opacity: 1; transform: translateX(0); }
+    }
+
+    /* Portrait pulse ring */
+    .hero-portrait::after {
+      content: '';
+      position: absolute; inset: -12px;
+      border-radius: inherit;
+      border: 1px solid rgba(201,168,237,0.2);
+      animation: porPulse 3s ease-in-out infinite;
+      pointer-events: none;
+      z-index: 0;
+    }
+    @keyframes porPulse {
+      0%,100% { transform: scale(1); opacity: 0.6; }
+      50%      { transform: scale(1.04); opacity: 1; }
+    }
+
+    /* Section hover shimmer */
+    .passion-card, .recipe-card, .tricot-item {
+      position: relative;
+    }
+    .passion-card::after, .recipe-card::after {
+      content: '';
+      position: absolute; top: 0; left: -100%;
+      width: 60%; height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.04), transparent);
+      transform: skewX(-20deg);
+      transition: left 0.6s ease;
+      pointer-events: none;
+    }
+    .passion-card:hover::after, .recipe-card:hover::after {
+      left: 150%;
+    }
+
+    /* ═══════════════════════════════════════════════
+       SCROLL TO TOP
+    ═══════════════════════════════════════════════ */
+    #scroll-top {
+      position: fixed; bottom: 32px; right: 28px;
+      width: 50px; height: 50px;
+      background: var(--violet);
+      border: 1px solid rgba(201, 168, 237, 0.25);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; z-index: 999;
+      opacity: 0; visibility: hidden;
+      transform: translateY(16px) scale(0.9);
+      transition: opacity 0.35s ease, visibility 0.35s ease,
+                  transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
+                  background 0.25s ease, box-shadow 0.25s ease;
+      box-shadow: 0 6px 24px rgba(61, 26, 92, 0.35);
+    }
+    #scroll-top.visible { opacity: 1; visibility: visible; transform: translateY(0) scale(1); }
+    #scroll-top:hover {
+      background: var(--violet-mid);
+      box-shadow: 0 10px 36px rgba(61, 26, 92, 0.5);
+      transform: translateY(-4px) scale(1.08);
+    }
+    #scroll-top svg {
+      width: 18px; height: 18px;
+      stroke: #fff; stroke-width: 2.5;
+      stroke-linecap: round; stroke-linejoin: round;
+      fill: none;
+      transition: transform 0.2s ease;
+    }
+    #scroll-top:hover svg { transform: translateY(-2px); }
+    #scroll-top::before {
+      content: ''; position: absolute; inset: -6px;
+      border-radius: 50%;
+      border: 1px solid rgba(201, 168, 76, 0.35);
+      opacity: 0; transform: scale(0.85);
+      transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+    #scroll-top:hover::before { opacity: 1; transform: scale(1); }
+
+    /* ═══════════════════════════════════════════════
+       IMAGES — styles prêts pour les vraies photos
+    ═══════════════════════════════════════════════ */
+    .hero-portrait img {
+      width: 100%; height: 100%;
+      object-fit: cover; object-position: center top;
+      border-radius: inherit;
+    }
+    .about-frame img {
+      width: 100%; height: 100%;
+      object-fit: cover; object-position: center;
+      border-radius: 2px 60px 2px 60px;
+    }
+    .recipe-img { position: relative; }
+    .recipe-img img {
+      width: 100%; height: 100%;
+      object-fit: cover; object-position: center;
+      position: absolute; inset: 0; z-index: 0;
+    }
+    .recipe-img .recipe-emoji,
+    .recipe-img .recipe-badge { position: relative; z-index: 2; }
+    .tricot-thumb img {
+      width: 100%; height: 100%;
+      object-fit: cover; object-position: center;
+    }
+  </style>
+</head>
+<body>
+
+  
+
+  <!-- CURSOR GLOW -->
+  <div class="cursor-glow" id="cursorGlow"></div>
+
+  <!-- PÉTALES CANVAS -->
+  <canvas id="petals-canvas"></canvas>
+
+  <!-- BOUTON SCROLL TO TOP -->
+  <button id="scroll-top" aria-label="Retour en haut de page" title="Haut de page">
+    <svg viewBox="0 0 24 24">
+      <polyline points="18 15 12 9 6 15"></polyline>
+    </svg>
+  </button>
+
+  <!-- NAV -->
+  <nav id="navbar">
+    <a class="nav-logo" href="#">Tatiana</a>
+    <ul class="nav-links">
+      <li><a href="#about">À propos</a></li>
+      <li><a href="#passions">Passions</a></li>
+      <li><a href="#cuisine">Cuisine</a></li>
+      <li><a href="#tricot">Tricot</a></li>
+      <li><a href="#foi">Foi</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero" id="home">
+    <div class="hero-left">
+      <p class="hero-eyebrow">Portfolio Personnel</p>
+      <h1 class="hero-name">Gnougoue Gnihan Tatiana</h1>
+      <p class="hero-title">Cuisinière d'âme &amp; Artisane du fil</p>
+      <p class="hero-desc">
+        Femme de cœur et de mains habiles, je cultive l'art de nourrir, de créer et d'aimer — à travers chaque plat, chaque maille et chaque prière.
+      </p>
+      <div class="hero-pillars">
+        <span class="pillar-chip">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2z"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><path d="M9 9h.01M15 9h.01"/><path d="M7 7c1-1.5 2.5-2 5-2s4 .5 5 2"/></svg>
+          Gastronomie
+        </span>
+        <span class="pillar-chip">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3l1 9"/><path d="M15 3l-1 9"/><path d="M5 7h14"/><path d="M3 12c0 5 4 9 9 9s9-4 9-9"/></svg>
+          Tricot &amp; Créations
+        </span>
+        <span class="pillar-chip">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22V12"/><path d="M12 12C12 7 7 4 4 7c-2 2-1 6 2 7"/><path d="M12 12c0-5 5-8 8-5 2 2 1 6-2 7"/></svg>
+          Femme de foi
+        </span>
+      </div>
+    </div>
+
+    <div class="hero-right">
+      <div class="petal-layer" id="hero-petals"></div>
+      <div class="float-card fc-cooking">
+        <span class="fc-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="var(--violet)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="26" height="26"><path d="M6 13.87A4 4 0 0 1 7.41 6a5.11 5.11 0 0 1 1.05-1.54 5 5 0 0 1 7.08 0A5.11 5.11 0 0 1 16.59 6 4 4 0 0 1 18 13.87V21H6z"/><line x1="6" y1="17" x2="18" y2="17"/></svg>
+        </span>
+        <div class="fc-text">
+          <span class="fc-label">Spécialité</span>
+          <span class="fc-value">Cuisine maison</span>
+        </div>
+      </div>
+
+      <div class="hero-portrait" id="heroPortrait">
+        <img src="assets/images/hero/portrait.jpg" alt="Tatiana" id="portraitImg" />
+        <span class="portrait-initial" id="portraitFallback" style="display:none;">T</span>
+      </div>
+
+      <div class="float-card fc-knitting">
+        <span class="fc-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="var(--violet)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="26" height="26"><circle cx="12" cy="12" r="10"/><path d="M12 2a10 10 0 0 1 6 18M6 4a10 10 0 0 0 0 16"/><path d="M12 12c-2-3-2-6 0-8M12 12c2 3 2 6 0 8"/></svg>
+        </span>
+        <div class="fc-text">
+          <span class="fc-label">Passion</span>
+          <span class="fc-value">Tricot artisanal</span>
+        </div>
+      </div>
+
+      <div class="float-card fc-faith">
+        <span class="fc-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="var(--violet)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="26" height="26"><path d="M12 22V12"/><line x1="12" y1="12" x2="12" y2="2"/><line x1="8" y1="6" x2="16" y2="6"/></svg>
+        </span>
+        <div class="fc-text">
+          <span class="fc-label">Valeurs</span>
+          <span class="fc-value">Foi &amp; Amour</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="about-visual reveal">
+      <div class="about-frame">
+        <img src="assets/images/about/tatiana-about.jpg" alt="Tatiana" />
+      </div>
+      <div class="about-ornament">Art de<br>vivre</div>
+    </div>
+
+    <div class="about-text">
+      <p class="section-eyebrow reveal">À propos de moi</p>
+      <h2 class="section-title reveal reveal-delay-1">Une femme <em>passionnée</em> et accomplie</h2>
+      <div class="section-divider reveal reveal-delay-2"></div>
+
+      <p class="reveal reveal-delay-2">
+        Je suis <strong>Tatiana</strong>, une femme épanouie dont la vie s'articule autour de trois piliers essentiels : la <strong>cuisine</strong>, le <strong>tricot</strong> et ma <strong>foi</strong>. Chaque jour est une nouvelle occasion de créer, de partager et de m'élever.
+      </p>
+      <p class="reveal reveal-delay-3">
+        En cuisine, je mets tout mon cœur à préparer des plats savoureux qui réchauffent l'âme. Mes recettes sont une fusion de tradition et d'innovation, toujours préparées avec <strong>amour et générosité</strong>.
+      </p>
+      <p class="reveal reveal-delay-3">
+        Le tricot est pour moi une forme de méditation active — chaque maille tissée avec soin raconte une histoire. Et dans ma foi, je trouve la <strong>force, la paix et l'inspiration</strong> qui guident tout le reste.
+      </p>
+
+      <div class="about-quote reveal reveal-delay-4">
+        <blockquote>
+          "La beauté du foyer, c'est qu'on y cultive ce qui compte vraiment — l'amour, la nourriture et la prière."
+        </blockquote>
+      </div>
+    </div>
+  </section>
+
+  <!-- PASSIONS -->
+  <section id="passions">
+    <div class="reveal">
+      <p class="section-eyebrow">Mes univers</p>
+      <h2 class="section-title">Trois <em>passions</em>,<br>une seule âme</h2>
+      <div class="section-divider"></div>
+    </div>
+
+    <div class="passions-grid">
+      <div class="passion-card reveal reveal-delay-1">
+        <div class="passion-icon-wrap">
+          <svg viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" width="32" height="32"><path d="M6 13.87A4 4 0 0 1 7.41 6a5.11 5.11 0 0 1 1.05-1.54 5 5 0 0 1 7.08 0A5.11 5.11 0 0 1 16.59 6 4 4 0 0 1 18 13.87V21H6z"/><line x1="6" y1="17" x2="18" y2="17"/></svg>
+        </div>
+        <p class="passion-num">01</p>
+        <h3 class="passion-name">La Cuisine</h3>
+        <p class="passion-desc">
+          Nourrir ceux qu'on aime est un acte d'amour profond. Je prépare chaque plat avec soin, en mariant les saveurs et les textures pour créer des expériences inoubliables.
+        </p>
+        <div class="passion-tags">
+          <span class="ptag">Cuisine ivoirienne</span>
+          <span class="ptag">Pâtisserie</span>
+          <span class="ptag">Snacks</span>
+        </div>
+      </div>
+
+      <div class="passion-card reveal reveal-delay-2">
+        <div class="passion-icon-wrap">
+          <svg viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" width="32" height="32"><path d="M9 3l1 9"/><path d="M15 3l-1 9"/><path d="M5 7h14"/><path d="M3 12c0 5 4 9 9 9s9-4 9-9"/></svg>
+        </div>
+        <p class="passion-num">02</p>
+        <h3 class="passion-name">Le Tricot</h3>
+        <p class="passion-desc">
+          Chaque maille est une pensée tissée. Le tricot est ma façon de créer de la beauté avec patience — écharpes, bonnets, vêtements faits main pour les personnes chères.
+        </p>
+        <div class="passion-tags">
+          <span class="ptag">Écharpes</span>
+          <span class="ptag">Bonnets</span>
+          <span class="ptag">Vêtements</span>
+        </div>
+      </div>
+
+      <div class="passion-card reveal reveal-delay-3">
+        <div class="passion-icon-wrap">
+          <svg viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" width="32" height="32"><path d="M12 22V12"/><line x1="12" y1="12" x2="12" y2="2"/><line x1="8" y1="6" x2="16" y2="6"/><path d="M5 19a7 7 0 0 1 14 0"/></svg>
+        </div>
+        <p class="passion-num">03</p>
+        <h3 class="passion-name">La Foi</h3>
+        <p class="passion-desc">
+          Ma foi est le socle de ma vie. Elle guide mes pas, illumine mes journées et m'apporte une paix que rien d'autre ne peut donner. C'est ma source de force intérieure.
+        </p>
+        <div class="passion-tags">
+          <span class="ptag">Prière</span>
+          <span class="ptag">Communauté</span>
+          <span class="ptag">Gratitude</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CUISINE -->
+  <section id="cuisine">
+    <div class="reveal">
+      <p class="section-eyebrow">Cuisine</p>
+      <h2 class="section-title">Mes <em>créations</em> culinaires</h2>
+      <div class="section-divider"></div>
+    </div>
+
+    <div class="recipes-layout">
+      <!-- Featured -->
+      <div class="recipe-card featured reveal">
+        <div class="recipe-img r-bg-1">
+          <img src="assets/images/cuisine/attieke.jpg" alt="Attiéké Poisson Braisé" />
+          <span class="recipe-badge">★ Signature</span>
+        </div>
+        <div class="recipe-body">
+          <p class="recipe-cat">Plat principal</p>
+          <h3 class="recipe-name">Attiéké Poisson Braisé</h3>
+          <p class="recipe-desc">
+            Le plat emblématique de Côte d'Ivoire revisité avec ma touche personnelle. Semoule de manioc fraîche, poisson grillé aux épices et garniture de tomates et oignons caramélisés.
+          </p>
+          <div class="recipe-meta">
+            <span class="rmeta">
+              <svg class="rm-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              45 min
+            </span>
+            <span class="rmeta">
+              <svg class="rm-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+              4 pers.
+            </span>
+            <span class="rmeta">
+              <svg class="rm-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><path d="M12 2c-4 6-4 10 0 14 4-4 4-8 0-14z"/><path d="M5 10c-2 4 0 8 7 10"/><path d="M19 10c2 4 0 8-7 10"/></svg>
+              Moyen
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="recipe-card reveal reveal-delay-1">
+        <div class="recipe-img r-bg-2">
+          <img src="assets/images/cuisine/sauce-graine.jpg" alt="Sauce Graine" />
+        </div>
+        <div class="recipe-body">
+          <p class="recipe-cat">Sauce</p>
+          <h3 class="recipe-name">Sauce Graine</h3>
+          <p class="recipe-desc">Sauce traditionnelle à la palme, mijotée lentement avec poulet et épices.</p>
+          <div class="recipe-meta">
+            <span class="rmeta">
+              <svg class="rm-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              1h20
+            </span>
+            <span class="rmeta">
+              <svg class="rm-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+              6 pers.
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="recipe-card reveal reveal-delay-2">
+        <div class="recipe-img r-bg-3">
+          <img src="assets/images/cuisine/alloco.jpg" alt="Alloco Sauté" />
+        </div>
+        <div class="recipe-body">
+          <p class="recipe-cat">Entrée</p>
+          <h3 class="recipe-name">Alloco Sauté</h3>
+          <p class="recipe-desc">Plantains mûrs frits, légèrement caramélisés, servis avec omelette épicée.</p>
+          <div class="recipe-meta">
+            <span class="rmeta">
+              <svg class="rm-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              20 min
+            </span>
+            <span class="rmeta">
+              <svg class="rm-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+              2 pers.
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 4 -->
+      <div class="recipe-card reveal reveal-delay-3">
+        <div class="recipe-img r-bg-4">
+          <img src="assets/images/cuisine/gateau-chocolat.jpg" alt="Gâteau au Chocolat" />
+        </div>
+        <div class="recipe-body">
+          <p class="recipe-cat">Pâtisserie</p>
+          <h3 class="recipe-name">Gâteau au Chocolat</h3>
+          <p class="recipe-desc">Fondant chocolat moelleux, ganache veloutée et éclats de cacao ivoirien.</p>
+          <div class="recipe-meta">
+            <span class="rmeta">
+              <svg class="rm-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              50 min
+            </span>
+            <span class="rmeta">
+              <svg class="rm-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+              8 pers.
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TRICOT -->
+  <section id="tricot">
+    <div class="reveal">
+      <p class="section-eyebrow">Tricot</p>
+      <h2 class="section-title">Créations <em>faites à la main</em></h2>
+      <div class="section-divider"></div>
+    </div>
+
+    <div class="tricot-grid">
+      <div class="tricot-item reveal reveal-delay-1">
+        <div class="tricot-thumb t-bg-1">
+          <img src="assets/images/tricot/echarpe-lavande.jpg" alt="Écharpe Lavande" />
+        </div>
+        <div class="tricot-info">
+          <p class="tricot-name">Écharpe Lavande</p>
+          <p class="tricot-detail">Laine merino · Point côte 2/2</p>
+          <div class="tricot-difficulty">
+            <span class="dot-filled">●</span><span class="dot-filled">●</span><span class="dot-empty">●</span><span class="dot-empty">●</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="tricot-item reveal reveal-delay-2">
+        <div class="tricot-thumb t-bg-2">
+          <img src="assets/images/tricot/bonnet-hiver.jpg" alt="Bonnet d'hiver" />
+        </div>
+        <div class="tricot-info">
+          <p class="tricot-name">Bonnet d'hiver</p>
+          <p class="tricot-detail">Alpaga · Point jersey</p>
+          <div class="tricot-difficulty">
+            <span class="dot-filled">●</span><span class="dot-empty">●</span><span class="dot-empty">●</span><span class="dot-empty">●</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="tricot-item reveal reveal-delay-3">
+        <div class="tricot-thumb t-bg-3">
+          <img src="assets/images/tricot/mitaines-dorees.jpg" alt="Mitaines Dorées" />
+        </div>
+        <div class="tricot-info">
+          <p class="tricot-name">Mitaines Dorées</p>
+          <p class="tricot-detail">Laine douce · Point ajouré</p>
+          <div class="tricot-difficulty">
+            <span class="dot-filled">●</span><span class="dot-filled">●</span><span class="dot-filled">●</span><span class="dot-empty">●</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="tricot-item reveal reveal-delay-4">
+        <div class="tricot-thumb t-bg-4">
+          <img src="assets/images/tricot/gilet-bleute.jpg" alt="Gilet Bleuté" />
+        </div>
+        <div class="tricot-info">
+          <p class="tricot-name">Gilet Bleuté</p>
+          <p class="tricot-detail">Coton · Point mousse</p>
+          <div class="tricot-difficulty">
+            <span class="dot-filled">●</span><span class="dot-filled">●</span><span class="dot-filled">●</span><span class="dot-filled">●</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOI -->
+  <section id="foi">
+    <p class="section-eyebrow reveal">Spiritualité</p>
+    <h2 class="section-title reveal reveal-delay-1">Ma <em>foi</em>, mon ancre</h2>
+    <div class="section-divider reveal reveal-delay-2"></div>
+
+    <div class="foi-verse reveal reveal-delay-2">
+      "Je puis tout par celui qui me fortifie."
+      <span class="foi-ref">Philippiens 4 : 13</span>
+    </div>
+
+    <div class="foi-values reveal reveal-delay-3">
+      <div class="foi-val">
+        <div class="foi-val-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" width="24" height="24"><path d="M18 2H6a2 2 0 0 0-2 2v16l4-2 4 2 4-2 4 2V4a2 2 0 0 0-2-2z"/><line x1="12" y1="7" x2="12" y2="13"/><line x1="9" y1="10" x2="15" y2="10"/></svg>
+        </div>
+        <span class="foi-val-name">Prière</span>
+      </div>
+      <div class="foi-val">
+        <div class="foi-val-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" width="24" height="24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
+        <span class="foi-val-name">Gratitude</span>
+      </div>
+      <div class="foi-val">
+        <div class="foi-val-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" width="24" height="24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+        </div>
+        <span class="foi-val-name">Parole</span>
+      </div>
+      <div class="foi-val">
+        <div class="foi-val-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" width="24" height="24"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>
+        </div>
+        <span class="foi-val-name">Paix</span>
+      </div>
+      <div class="foi-val">
+        <div class="foi-val-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" width="24" height="24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+        </div>
+        <span class="foi-val-name">Amour</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="contact-left">
+      <p class="section-eyebrow reveal">Contact</p>
+      <h2 class="section-title reveal reveal-delay-1">Échangeons <em>ensemble</em></h2>
+      <div class="section-divider reveal reveal-delay-2"></div>
+
+      <p class="contact-intro reveal reveal-delay-2">
+        Vous souhaitez commander une création tricot, partager une recette ou simplement échanger ? N'hésitez pas à me contacter.
+      </p>
+
+      <div class="contact-items">
+        <div class="contact-item reveal reveal-delay-3">
+          <div class="ci-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="var(--violet)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="20" height="20"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          </div>
+          <div class="ci-info">
+            <span class="ci-label">Localisation</span>
+            <span class="ci-val">Côte d'Ivoire, Abidjan</span>
+          </div>
+        </div>
+        <div class="contact-item reveal reveal-delay-3">
+          <div class="ci-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="var(--violet)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="20" height="20"><path d="M6 13.87A4 4 0 0 1 7.41 6a5.11 5.11 0 0 1 1.05-1.54 5 5 0 0 1 7.08 0A5.11 5.11 0 0 1 16.59 6 4 4 0 0 1 18 13.87V21H6z"/><line x1="6" y1="17" x2="18" y2="17"/></svg>
+          </div>
+          <div class="ci-info">
+            <span class="ci-label">Cuisine</span>
+            <span class="ci-val">Commandes sur demande</span>
+          </div>
+        </div>
+        <div class="contact-item reveal reveal-delay-4">
+          <div class="ci-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="var(--violet)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="20" height="20"><circle cx="12" cy="12" r="10"/><path d="M8.56 2.75c4.37 6.03 6.02 9.42 8.03 17.72m2.54-15.38c-3.72 4.35-8.94 5.66-16.88 5.85m19.5 1.9c-3.5-.93-6.63-.82-8.94 0-2.58.92-5.01 2.86-7.44 6.32"/></svg>
+          </div>
+          <div class="ci-info">
+            <span class="ci-label">Tricot</span>
+            <span class="ci-val">Créations personnalisées</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <form class="contact-form reveal reveal-delay-2" onsubmit="return false;">
+      <div class="form-row">
+        <div class="form-group">
+          <label>Prénom</label>
+          <input type="text" placeholder="Votre prénom" />
+        </div>
+        <div class="form-group">
+          <label>Nom</label>
+          <input type="text" placeholder="Votre nom" />
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Sujet</label>
+        <select>
+          <option>Commande cuisine</option>
+          <option>Commande tricot</option>
+          <option>Simple échange</option>
+          <option>Autre</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Message</label>
+        <textarea placeholder="Votre message…"></textarea>
+      </div>
+      <button class="btn-send" type="submit">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+        Envoyer le message
+      </button>
+    </form>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <span class="footer-logo">Tatiana</span>
+    <p class="footer-copy">© 2025 Tatiana · Fait avec amour en Côte d'Ivoire</p>
+    <div class="footer-icons">
+      <a href="#" class="footer-icon" aria-label="Facebook">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="18" height="18"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+      </a>
+      <a href="#" class="footer-icon" aria-label="Instagram">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="18" height="18"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+      </a>
+      <a href="#" class="footer-icon" aria-label="WhatsApp">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="18" height="18"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+      </a>
+    </div>
+  </footer>
+
+  <script>
+    // ── Portrait image fallback ──────────────────────────
+    const portraitImg = document.getElementById('portraitImg');
+    const portraitFallback = document.getElementById('portraitFallback');
+    if (portraitImg) {
+      portraitImg.addEventListener('error', () => {
+        portraitImg.style.display = 'none';
+        if (portraitFallback) portraitFallback.style.display = '';
+      });
+      // Also check if already errored (cached fail)
+      if (portraitImg.complete && !portraitImg.naturalWidth) {
+        portraitImg.dispatchEvent(new Event('error'));
+      }
+    }
+
+    // ── Navbar scroll ────────────────────────────────────
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      navbar.classList.toggle('scrolled', window.scrollY > 60);
+    });
+
+    // ── Scroll to top button ─────────────────────────────
+    const scrollTopBtn = document.getElementById('scroll-top');
+    window.addEventListener('scroll', () => {
+      scrollTopBtn.classList.toggle('visible', window.scrollY > 400);
+    });
+    scrollTopBtn.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    // ── Scroll reveal ─────────────────────────────────────
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          observer.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    // ── Cursor glow ───────────────────────────────────────
+    const glow = document.getElementById('cursorGlow');
+    window.addEventListener('mousemove', e => {
+      glow.style.left = e.clientX + 'px';
+      glow.style.top  = e.clientY + 'px';
+    });
+
+    // ── Smooth nav links ──────────────────────────────────
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', e => {
+        const target = document.querySelector(a.getAttribute('href'));
+        if (target) {
+          e.preventDefault();
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    });
+
+    // ── Pétales de fleurs — Canvas animation ─────────────
+    (function() {
+      const canvas = document.getElementById('petals-canvas');
+      const ctx = canvas.getContext('2d');
+
+      function resize() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+      }
+      resize();
+      window.addEventListener('resize', resize);
+
+      // Palette violette
+      const colors = [
+        'rgba(123, 79, 173, 0.55)',
+        'rgba(201, 174, 237, 0.65)',
+        'rgba(92, 45, 138, 0.45)',
+        'rgba(237, 225, 250, 0.7)',
+        'rgba(180, 130, 220, 0.6)',
+        'rgba(61, 26, 92, 0.35)',
+        'rgba(215, 190, 245, 0.7)',
+      ];
+
+      // Forme d'un pétale (ellipse inclinée)
+      function drawPetal(ctx, x, y, rx, ry, angle, color) {
+        ctx.save();
+        ctx.translate(x, y);
+        ctx.rotate(angle);
+        ctx.beginPath();
+        // Pétale = deux courbes de Bézier
+        ctx.moveTo(0, -ry);
+        ctx.bezierCurveTo(rx * 0.8, -ry * 0.5,  rx * 0.8,  ry * 0.5, 0,  ry);
+        ctx.bezierCurveTo(-rx * 0.8,  ry * 0.5, -rx * 0.8, -ry * 0.5, 0, -ry);
+        ctx.closePath();
+        ctx.fillStyle = color;
+        ctx.fill();
+        // Nervure
+        ctx.beginPath();
+        ctx.moveTo(0, -ry);
+        ctx.lineTo(0, ry);
+        ctx.strokeStyle = color.replace(/[\d.]+\)$/, '0.3)');
+        ctx.lineWidth = 0.5;
+        ctx.stroke();
+        ctx.restore();
+      }
+
+      class Petal {
+        constructor() { this.reset(true); }
+        reset(init) {
+          this.x = Math.random() * canvas.width;
+          this.y = init ? Math.random() * canvas.height : -30;
+          this.rx = 6 + Math.random() * 9;
+          this.ry = 10 + Math.random() * 14;
+          this.angle = Math.random() * Math.PI * 2;
+          this.spin = (Math.random() - 0.5) * 0.04;
+          this.vy = 0.6 + Math.random() * 1.2;
+          this.vx = (Math.random() - 0.5) * 0.8;
+          this.color = colors[Math.floor(Math.random() * colors.length)];
+          this.alpha = 0;
+          this.fadeIn = true;
+          this.oscillate = (Math.random() - 0.5) * 0.3;
+          this.t = Math.random() * 100;
+        }
+        update() {
+          this.t += 0.02;
+          this.x += this.vx + Math.sin(this.t) * this.oscillate;
+          this.y += this.vy;
+          this.angle += this.spin;
+          if (this.fadeIn && this.alpha < 0.9) this.alpha = Math.min(0.9, this.alpha + 0.02);
+          if (this.y > canvas.height + 40) this.reset(false);
+        }
+        draw() {
+          ctx.globalAlpha = this.alpha;
+          drawPetal(ctx, this.x, this.y, this.rx, this.ry, this.angle, this.color);
+          ctx.globalAlpha = 1;
+        }
+      }
+
+      const petals = Array.from({ length: 28 }, () => new Petal());
+
+      function animate() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        petals.forEach(p => { p.update(); p.draw(); });
+        requestAnimationFrame(animate);
+      }
+      animate();
+    })();
+  </script>
+</body>
+</html>
