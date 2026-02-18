@@ -5,7 +5,6 @@ if (portraitImg) {
   const showFallback = () => {
     portraitImg.style.display = 'none';
     if (portraitFallback) portraitFallback.style.display = '';
-    // Sur mobile sans image : mettre un fond violet sur le hero
     const heroPortrait = document.getElementById('heroPortrait');
     if (heroPortrait && window.innerWidth <= 768) {
       heroPortrait.style.background = 'linear-gradient(160deg, #3D1A5C 0%, #1A0A2E 100%)';
@@ -13,6 +12,17 @@ if (portraitImg) {
   };
   portraitImg.addEventListener('error', showFallback);
   if (portraitImg.complete && !portraitImg.naturalWidth) showFallback();
+}
+
+// ── MOBILE : forcer la visibilité de tous les .reveal immédiatement ─────
+if (window.innerWidth <= 768 || 'ontouchstart' in window) {
+  document.querySelectorAll('.reveal').forEach(el => {
+    el.classList.add('visible');
+    el.style.opacity = '1';
+    el.style.transform = 'none';
+    el.style.pointerEvents = 'auto';
+    el.style.transition = 'none';
+  });
 }
 
 // ── Navbar scroll ────────────────────────────────────

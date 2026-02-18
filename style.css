@@ -34,6 +34,13 @@ body {
   overflow-x: hidden;
 }
 
+/* GLOBAL : tous les boutons et liens sont toujours cliquables */
+a, button, [role="button"], input, select, textarea {
+  pointer-events: auto !important;
+  touch-action: manipulation; /* supprime le délai 300ms sur mobile */
+  -webkit-tap-highlight-color: rgba(61, 26, 92, 0.15);
+}
+
 ::selection { background: var(--violet-pale); color: var(--ink); }
 
 /* ═══════════════════════════════════════════════
@@ -43,7 +50,12 @@ body::before {
   content: '';
   position: fixed; inset: 0;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.035'/%3E%3C/svg%3E");
-  pointer-events: none; z-index: 9999; opacity: 0.6;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.6;
+}
+@media (max-width: 768px) {
+  body::before { display: none; }
 }
 
 /* ═══════════════════════════════════════════════
@@ -220,15 +232,15 @@ nav.scrolled {
 ═══════════════════════════════════════════════ */
 #petals-canvas {
   position: fixed; inset: 0;
-  pointer-events: none;
-  touch-action: none;
-  z-index: 2;          /* bien en dessous des éléments cliquables */
+  pointer-events: none !important;
+  touch-action: auto !important; /* NE PAS bloquer le scroll tactile */
+  z-index: 1; /* Très bas, jamais au-dessus des liens/boutons */
   opacity: 0.75;
 }
 
-/* Sur mobile : désactiver les pétales canvas pour ne pas bloquer le touch */
+/* Sur mobile : désactiver complètement les pétales canvas */
 @media (max-width: 768px) {
-  #petals-canvas { display: none; }
+  #petals-canvas { display: none !important; }
 }
 
 .petal-svg {
@@ -884,11 +896,21 @@ footer {
   opacity: 0;
   transform: translateY(28px);
   transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  pointer-events: none; /* invisible = ne bloque rien */
 }
-
 .reveal.visible {
   opacity: 1;
   transform: translateY(0);
+  pointer-events: auto;
+}
+/* MOBILE : supprimer toutes les animations reveal — tout visible d'emblée */
+@media (max-width: 768px) {
+  .reveal {
+    opacity: 1 !important;
+    transform: none !important;
+    pointer-events: auto !important;
+    transition: none !important;
+  }
 }
 
 .reveal-delay-1 { transition-delay: 0.1s; }
@@ -1016,88 +1038,118 @@ footer {
 
   /* ── HERO MOBILE — plein écran avec image de fond ── */
   .hero {
-    display: flex;
-    flex-direction: column;
+    display: block;
     min-height: 100svh;
     position: relative;
     overflow: hidden;
+    background: #1A0A2E;
   }
 
-  /* hero-right devient le fond absolu */
+  /* hero-right = fond absolu derrière tout, pointer-events none */
   .hero-right {
     display: block !important;
-    position: absolute;
-    inset: 0;
-    z-index: 0;
+    position: absolute !important;
+    inset: 0 !important;
+    z-index: 0 !important;
+    pointer-events: none !important;
+    background: none !important;
   }
 
-  /* Portrait blob → rectangle plein écran */
+  /* Supprimer le ::before de hero-right */
+  .hero-right::before { display: none; }
+
+  /* Portrait = fond absolu plein écran */
   .hero-portrait {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    border-radius: 0;
-    animation: none;
-    box-shadow: none;
+    position: absolute !important;
+    inset: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    border-radius: 0 !important;
+    animation: none !important;
+    box-shadow: none !important;
+    background: #2D0D56 !important; /* fond violet sombre si pas d'image */
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    overflow: hidden !important;
+    z-index: 0 !important;
   }
-  .hero-portrait::after { display: none; }
+  .hero-portrait::after { display: none !important; }
 
-  /* Image couvre tout l'écran, visage centré-haut */
+  /* L'image couvre tout, focus sur le visage en haut */
   .hero-portrait img {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center 20%;
-    border-radius: 0;
+    position: absolute !important;
+    inset: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    object-position: center top !important;
+    border-radius: 0 !important;
+    display: block !important;
+    z-index: 1 !important;
   }
 
-  /* Fallback initiale quand pas d'image */
+  /* Fallback initiale "T" */
   #portraitFallback {
-    position: absolute;
-    top: 50%; left: 50%;
-    transform: translate(-50%, -50%);
-    font-size: 8rem;
-    opacity: 0.15;
-    color: #fff;
+    position: relative !important;
+    font-size: 8rem !important;
+    opacity: 0.2 !important;
+    color: #fff !important;
+    z-index: 2 !important;
   }
 
-  /* Dégradé sombre en bas pour lisibilité du texte */
+  /* Dégradé bas-de-page pour lisibilité du texte */
   .hero-right::after {
     content: '';
     position: absolute;
     inset: 0;
-    z-index: 1;
-    background:
-      linear-gradient(to bottom,
-        rgba(61, 26, 92, 0.45) 0%,
-        rgba(26, 10, 46, 0.10) 25%,
-        rgba(26, 10, 46, 0.55) 55%,
-        rgba(26, 10, 46, 0.95) 100%
-      );
+    z-index: 3;
+    pointer-events: none;
+    background: linear-gradient(
+      to bottom,
+      rgba(26, 10, 46, 0.15) 0%,
+      rgba(26, 10, 46, 0.02) 22%,
+      rgba(26, 10, 46, 0.45) 52%,
+      rgba(26, 10, 46, 0.97) 100%
+    );
   }
 
-  /* Pétales hero : derrière le texte */
-  .hero-right .petal-layer { z-index: 2; pointer-events: none; }
-  .float-card { display: none; }
+  /* Masquer les éléments flottants et pétales sur mobile */
+  .hero-right .petal-layer,
+  .float-card { display: none !important; }
 
-  /* Texte en bas, z-index au dessus de tout */
+  /* Texte hero : absolu en bas */
   .hero-left {
-    position: relative;
-    z-index: 3;
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    padding: 0 6% 56px;
-    background: none;
+    position: absolute !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    z-index: 10 !important; /* au-dessus de tout */
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: flex-end !important;
+    padding: 0 6% 52px !important;
+    background: none !important;
+    min-height: auto !important;
+    pointer-events: auto !important; /* BOUTONS CLIQUABLES */
+  }
+
+  /* Annuler les décoratifs et animations sur mobile */
+  .hero-left::before,
+  .hero-left::after { display: none !important; }
+  .hero-left > * {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+    pointer-events: auto !important;
+  }
+
+  /* Le hero doit avoir au minimum 100svh pour que le texte soit en bas */
+  .hero::after {
+    content: '';
+    display: block;
     min-height: 100svh;
   }
-  /* Supprimer les pseudo-éléments décoratifs du hero-left sur mobile */
-  .hero-left::before,
-  .hero-left::after { display: none; }
 
   .hero-eyebrow { margin-bottom: 10px; color: var(--gold); }
   .hero-name { font-size: clamp(2.2rem, 9vw, 3.4rem); margin-bottom: 6px; color: #fff; }
@@ -1110,6 +1162,7 @@ footer {
     background: rgba(255,255,255,0.10);
     border-color: rgba(255,255,255,0.2);
     color: rgba(255,255,255,0.85);
+    pointer-events: none;
   }
 
   .section-title { font-size: clamp(2rem, 7vw, 3rem); }
@@ -1281,7 +1334,10 @@ footer {
    CURSOR GLOW — desktop only
 ═══════════════════════════════════════════════ */
 .cursor-glow {
-  position: fixed; pointer-events: none; z-index: 1;
+  position: fixed;
+  pointer-events: none !important;
+  touch-action: auto !important;
+  z-index: 1;
   width: 360px; height: 360px;
   background: radial-gradient(circle, rgba(123,79,173,0.07) 0%, transparent 70%);
   border-radius: 50%;
@@ -1289,22 +1345,23 @@ footer {
   transition: transform 0.08s ease;
   mix-blend-mode: multiply;
 }
-@media (max-width: 768px) {
-  .cursor-glow { display: none; }
+@media (max-width: 1024px) {
+  .cursor-glow { display: none !important; }
 }
 
 /* ═══════════════════════════════════════════════
-   HERO ENTRANCE ANIMATION
+   HERO ENTRANCE ANIMATION — desktop seulement
 ═══════════════════════════════════════════════ */
-.hero-left > * {
-  animation: heroSlideIn 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
+@media (min-width: 769px) {
+  .hero-left > * {
+    animation: heroSlideIn 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+  .hero-left > *:nth-child(1) { animation-delay: 0.1s; }
+  .hero-left > *:nth-child(2) { animation-delay: 0.25s; }
+  .hero-left > *:nth-child(3) { animation-delay: 0.4s; }
+  .hero-left > *:nth-child(4) { animation-delay: 0.55s; }
+  .hero-left > *:nth-child(5) { animation-delay: 0.7s; }
 }
-.hero-left > *:nth-child(1) { animation-delay: 0.1s; }
-.hero-left > *:nth-child(2) { animation-delay: 0.25s; }
-.hero-left > *:nth-child(3) { animation-delay: 0.4s; }
-.hero-left > *:nth-child(4) { animation-delay: 0.55s; }
-.hero-left > *:nth-child(5) { animation-delay: 0.7s; }
-
 @keyframes heroSlideIn {
   from { opacity: 0; transform: translateX(-30px); }
   to   { opacity: 1; transform: translateX(0); }
